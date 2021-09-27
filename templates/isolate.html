@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/webp" href="/logo.webp">
+    <title>{{name}}</title>
+  </head>
+  <body>
+    <a href="/">Home</a>
+    <h1>Isolate: {{name}}</h1>
+    <div>Capsule locus type: {{kl}}</div>
+    <div>Sequence type: {{st}}</div>
+    <div>Outer core lipooligosaccharide type: {{ocl}}</div>
+    <div>
+      {{#density}}
+      <div>DENSITY</div>
+      {{/density}}
+
+      {{#colony}}
+      <div>COLONY</div>
+      {{/colony}}
+
+      {{#microscope}}
+      <div>MICROSCOPE</div>
+      {{/microscope}}
+
+      {{#model}}
+      <div>MODEL</div>
+      {{/model}}
+    </div>
+  </body>
+</html>
