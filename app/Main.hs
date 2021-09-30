@@ -4,7 +4,7 @@
 
 module Main where
 
-import           Prelude                    hiding (filter)
+import           Prelude
 
 import qualified Control.Exception          as Exception
 import           Control.Monad              (filterM)
@@ -22,18 +22,18 @@ import           Data.HashMap.Strict        ((!?))
 import qualified Data.HashMap.Strict        as HM
 import qualified Data.Set                   as Set
 import qualified Data.Text                  as T
-import           Data.Vector                (Vector, filter, toList)
+import           Data.Vector                (Vector, fromList, toList)
 import           Development.Shake          (Action, ShakeOptions (shakeFiles),
                                              copyFileChanged, forP,
                                              getDirectoryFiles, need, phony,
                                              putInfo, removeFilesAfter,
                                              shakeArgs, shakeOptions, want,
                                              writeFile', (%>))
-import           Development.Shake.FilePath (takeFileName)
+import           Development.Shake.FilePath (takeBaseName, takeFileName)
 import           GHC.Generics               (Generic)
 import           Slick.Mustache             (compileTemplate')
 import           System.Directory           (doesDirectoryExist, listDirectory)
-import           System.FilePath.Posix      ((</>))
+import           System.FilePath            ((</>))
 import           Text.Mustache.Render       (substitute)
 
 -- Config ---------------------------------------------------------------------
@@ -41,7 +41,7 @@ import           Text.Mustache.Render       (substitute)
 data SiteMeta =
   SiteMeta { siteAuthor      :: String
            , baseUrl         :: String
-           , dataUrl         :: String
+           , imageUrl        :: String
            , siteTitle       :: String
            , siteDescription :: String
            }
@@ -51,7 +51,7 @@ siteMeta :: SiteMeta
 siteMeta =
   SiteMeta { siteAuthor = "James Collier"
            , baseUrl = "https://acinetobase.vib.be"
-           , dataUrl = "/data"
+           , imageUrl = "/images"
            , siteTitle = "Acinetobase"
            , siteDescription = "Compendium of Experiments in the Lab"
            }
@@ -59,8 +59,8 @@ siteMeta =
 outputDir :: FilePath
 outputDir = "_site/"
 
-dataDir :: FilePath
-dataDir = "data/"
+sourceDir :: FilePath
+sourceDir = "data/"
 
 -- Business Data models -------------------------------------------------------
 
@@ -73,6 +73,7 @@ data Isolate =
           , kl         :: !T.Text
           , ocl        :: !T.Text
           , st         :: !T.Text
+          , genbank    :: Maybe T.Text
           }
   deriving (Generic, Eq, Show, ToJSON)
 
@@ -83,6 +84,7 @@ instance FromNamedRecord Isolate where
        <*> record .: "KL"
        <*> record .: "OCL"
        <*> record .: "ST"
+       <*> record .: "GenBank"
 
 decodeIsolates :: BL.ByteString -> Either String (Vector Isolate)
 decodeIsolates = fmap snd . decodeByNameWith decodeOptions
@@ -130,7 +132,24 @@ isolateFile isolate =
 
 filesFromIsolates :: Vector Isolate -> Vector FilePath
 filesFromIsolates isolates =
-  (\i -> outputDir </> isolateFile i) <$> isolates
+  let
+    iname :: Isolate -> String
+    iname iso = T.unpack (name iso)
+
+    html :: Vector FilePath
+    html
+      = (\i -> outputDir </> isolateFile i) <$> isolates
+
+    images :: Vector FilePath
+    images
+      = (\i -> fromList $ map snd $ filter fst $ zip [density i, colony i, microscope i, model i]
+          [ outputDir </> "images" </> iname i ++ "_density.png"
+                       , outputDir </> "images" </> iname i ++ "_colony.jpg"
+                       , outputDir </> "images" </> iname i ++ "_TEM.png"
+                       , outputDir </> "images" </> iname i ++ ".png"]
+               ) =<< isolates
+  in
+    html <> images
 
 --- Build Actions -------------------------------------------------------------
 
@@ -150,8 +169,8 @@ buildIndex isolates = do
 
 -- Top Level ------------------------------------------------------------------
 
-runBuild :: Vector Isolate -> IO ()
-runBuild isolates = do
+buildRules :: Vector Isolate -> IO ()
+buildRules isolates = do
   shakeArgs shakeOptions{shakeFiles="_build/"} $ do
     let outputFiles = filesFromIsolates isolates
 
@@ -164,15 +183,20 @@ runBuild isolates = do
 
     outputDir </> "index.html" %> \_ -> do
       static <- getDirectoryFiles "static" ["*.webp"]
-      need ((dataDir </> "metadata.csv") : ((outputDir </>) <$> static))
+      need ((sourceDir </> "metadata.csv") : ((outputDir </>) <$> static))
       buildIndex isolates
 
     outputDir </> "*.webp" %> \output -> do
       need ["static" </> takeFileName output]
       copyFileChanged ("static" </> takeFileName output) output
 
+    outputDir </> "images" </> "*" %> \output -> do
+      let dir = T.unpack $ head $ T.split (== '_') $ T.pack . takeBaseName $ output
+      need ["data" </> dir </> takeFileName output]
+      copyFileChanged ("data" </> dir </> takeFileName output) output
+
     outputDir </> "isolates" </> "*.html" %> \_ -> do
-      need [dataDir </> "metadata.csv"]
+      need [sourceDir </> "metadata.csv"]
       _ <- forP (toList isolates) buildIsolatePage
       pure ()
 
@@ -194,16 +218,15 @@ updateIsolates isolates files =
 
 main :: IO ()
 main = do
-  isos <- decodeIsolatesFromFile $ dataDir </> "metadata.csv"
+  isos <- decodeIsolatesFromFile $ sourceDir </> "metadata.csv"
 
-  dataDirContents <- HM.fromList <$> (
-    listDirectory dataDir
-    >>= filterM (\file -> doesDirectoryExist $ dataDir </> file)
-    >>= mapM (\file -> (\files -> (file, Set.fromList files)) <$> listDirectory (dataDir </> file))
+  sourceDirContents <- HM.fromList <$> (
+    listDirectory sourceDir
+    >>= filterM (\file -> doesDirectoryExist $ sourceDir </> file)
+    >>= mapM (\file -> (\files -> (file, Set.fromList files)) <$> listDirectory (sourceDir </> file))
     )
-  print dataDirContents
 
   case isos of
-    Right isolates -> runBuild $ updateIsolates isolates dataDirContents
+    Right isolates -> buildRules $ updateIsolates isolates sourceDirContents
     Left err       -> putStrLn err
 

@@ -14,20 +14,36 @@
     <div>Outer core lipooligosaccharide type: {{ocl}}</div>
     <div>
       {{#density}}
-      <div>DENSITY</div>
+      <figure>
+        <img src="{{imageUrl}}/{{name}}_density.png" style="width: 100px" alt="Density gradient"/>
+        <figcaption>Density gradient</figcaption>
+      </figure>
       {{/density}}
 
       {{#colony}}
-      <div>COLONY</div>
+      <figure>
+        <img src="{{imageUrl}}/{{name}}_colony.jpg" style="height: 250px" alt="Colony morphology"/>
+        <figcaption>Colony morphology</figcaption>
+      </figure>
       {{/colony}}
 
       {{#microscope}}
-      <div>MICROSCOPE</div>
+      <figure>
+        <img src="{{imageUrl}}/{{name}}_TEM.png" style="height: 250px" alt="Transmission Electron Microscopy"/>
+        <figcaption>Transmission Electron Microscopy</figcaption>
+      </figure>
       {{/microscope}}
 
       {{#model}}
-      <div>MODEL</div>
+      <figure>
+        <img src="{{imageUrl}}/{{name}}.png" style="height: 250px" alt="Virulence in Galleria mellonella infection models">
+        <figcaption>Virulence in <em>Galleria mellonella</em> infection models</figcaption>
+      </figure>
       {{/model}}
+
+      {{#genbank}}
+      <a href="{{genbank}}">GenBank</a>
+      {{/genbank}}
     </div>
   </body>
 </html>
