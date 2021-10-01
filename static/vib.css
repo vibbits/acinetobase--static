@@ -1,0 +1,40 @@
+@font-face
+{
+    font-family: Dense;
+    src: url(/Dense-Regular.otf);
+}
+
+
+.text-vib-orange {
+    color: #ff681e;
+}
+
+.text-vib-white {
+    color: #fff;
+}
+
+.bg-vib-blue {
+    background-color: #1b2944;
+}
+
+
+.vib-main-header {
+    font-family: Dense;
+    font-size: 5em;
+}
+
+.vib-secondary-header {
+    font-family: Dense;
+    font-size: 2.5em;
+}
+
+.vib-btn {
+    font-family: Dense;
+    font-size: 2em;
+    color: #ff681e;
+}
+
+.vib-btn:hover {
+    color: #fff;
+    background-color: #ff681e;
+}

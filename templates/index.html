@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/webp" href="/logo.webp">
-    <title>{{siteTitle}}</title>
+    {{>templates/head.html}}
   </head>
-  <body>
-    <img src="/logo.webp" alt="Acinetobase logo">
-    <h1>{{siteTitle}}</h1>
-    <h3>{{siteDescription}}</h3>
+  <body class="container">
+    {{>templates/header.html}}
 
-    <ul>
-    {{#isolates}}
-      <li><a href="/isolates/{{name}}.html">{{name}}</a></li>
-    {{/isolates}}
-    </ul>
+    <table class="table table-striped table-hover">
+      <thead>
+        <th scope="col">Strain</th>
+        <th scope="col">Capsule locus type</th>
+        <th scope="col">Sequence type</th>
+        <th scope="col">OCL</th>
+      </thead>
+      <tbody>
+        {{#isolates}}
+        <tr>
+          <th scope="row"><a href="/isolates/{{name}}.html">{{name}}</a></th>
+          <td>{{kl}}</td>
+          <td>{{st}}</td>
+          <td>{{ocl}}</td>
+        </tr>
+        {{/isolates}}
+      </tbody>
+    </table>
+
+    {{>templates/footer.html}}
   </body>
 </html>

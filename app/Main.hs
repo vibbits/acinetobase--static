@@ -29,11 +29,10 @@ import           Development.Shake          (Action, ShakeOptions (shakeFiles),
                                              putInfo, removeFilesAfter,
                                              shakeArgs, shakeOptions, want,
                                              writeFile', (%>))
-import           Development.Shake.FilePath (takeBaseName, takeFileName)
+import           Development.Shake.FilePath (takeBaseName, takeFileName, (</>))
 import           GHC.Generics               (Generic)
 import           Slick.Mustache             (compileTemplate')
 import           System.Directory           (doesDirectoryExist, listDirectory)
-import           System.FilePath            ((</>))
 import           Text.Mustache.Render       (substitute)
 
 -- Config ---------------------------------------------------------------------
@@ -182,13 +181,33 @@ buildRules isolates = do
       removeFilesAfter "_site" ["//*"]
 
     outputDir </> "index.html" %> \_ -> do
-      static <- getDirectoryFiles "static" ["*.webp"]
+      static <- getDirectoryFiles "static" ["*.webp", "*.svg", "*.jpg", "*.png", "vib.css", "Dense-Regular.otf"]
       need ((sourceDir </> "metadata.csv") : ((outputDir </>) <$> static))
       buildIndex isolates
 
     outputDir </> "*.webp" %> \output -> do
       need ["static" </> takeFileName output]
       copyFileChanged ("static" </> takeFileName output) output
+
+    outputDir </> "*.svg" %> \output -> do
+      need ["static" </> takeFileName output]
+      copyFileChanged ("static" </> takeFileName output) output
+
+    outputDir </> "*.jpg" %> \output -> do
+      need ["static" </> takeFileName output]
+      copyFileChanged ("static" </> takeFileName output) output
+
+    outputDir </> "*.png" %> \output -> do
+      need ["static" </> takeFileName output]
+      copyFileChanged ("static" </> takeFileName output) output
+
+    outputDir </> "vib.css" %> \css -> do
+      need ["static" </> takeFileName css]
+      copyFileChanged ("static" </> takeFileName css) css
+
+    outputDir </> "Dense-Regular.otf" %> \font -> do
+      need ["static" </> takeFileName font]
+      copyFileChanged ("static" </> takeFileName font) font
 
     outputDir </> "images" </> "*" %> \output -> do
       let dir = T.unpack $ head $ T.split (== '_') $ T.pack . takeBaseName $ output

@@ -1,49 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/webp" href="/logo.webp">
-    <title>{{name}}</title>
+    {{>templates/head.html}}
   </head>
-  <body>
-    <a href="/">Home</a>
-    <h1>Isolate: {{name}}</h1>
-    <div>Capsule locus type: {{kl}}</div>
-    <div>Sequence type: {{st}}</div>
-    <div>Outer core lipooligosaccharide type: {{ocl}}</div>
-    <div>
+  <body class="container">
+    {{>templates/header.html}}
+
+    <div class="container text-center">
+      <h1 class="display-1">{{name}}</h1>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Strain</th>
+            <th scope="col">Capsule locus type</th>
+            <th scope="col">Sequence type</th>
+            <th scope="col">Outer core lipooligosaccharide type</th>
+            {{#genbank}}
+            <th scope="col">GenBank</th>
+            {{/genbank}}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{name}}</th>
+            <td>{{kl}}</td>
+            <td>{{st}}</td>
+            <td>{{ocl}}</td>
+            {{#genbank}}
+            <td><a href="{{genbank}}">GenBank</a></td>
+            {{/genbank}}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
       {{#density}}
-      <figure>
-        <img src="{{imageUrl}}/{{name}}_density.png" style="width: 100px" alt="Density gradient"/>
-        <figcaption>Density gradient</figcaption>
-      </figure>
+      <div class="col">
+        <figure class="figure">
+          <img src="{{imageUrl}}/{{name}}_density.png" class="figure-img img-fluid" style="max-height:50em" alt="Density gradient"/>
+          <figcaption class="figure-caption">Density gradient.</figcaption>
+        </figure>
+      </div>
       {{/density}}
 
       {{#colony}}
-      <figure>
-        <img src="{{imageUrl}}/{{name}}_colony.jpg" style="height: 250px" alt="Colony morphology"/>
-        <figcaption>Colony morphology</figcaption>
-      </figure>
+      <div class="col">
+        <figure class="figure">
+          <img src="{{imageUrl}}/{{name}}_colony.jpg" class="figure-img img-fluid" style="max-height:50em" alt="Colony morphology"/>
+          <figcaption class="figure-caption">Colony morphology.</figcaption>
+        </figure>
+      </div>
       {{/colony}}
 
       {{#microscope}}
-      <figure>
-        <img src="{{imageUrl}}/{{name}}_TEM.png" style="height: 250px" alt="Transmission Electron Microscopy"/>
-        <figcaption>Transmission Electron Microscopy</figcaption>
-      </figure>
+      <div class="col">
+        <figure class="figure">
+          <img src="{{imageUrl}}/{{name}}_TEM.png" class="figure-img img-fluid" style="max-height:50em" alt="Transmission Electron Microscopy"/>
+          <figcaption class="figure-caption">Transmission Electron Microscopy.</figcaption>
+        </figure>
+      </div>
       {{/microscope}}
 
       {{#model}}
-      <figure>
-        <img src="{{imageUrl}}/{{name}}.png" style="height: 250px" alt="Virulence in Galleria mellonella infection models">
-        <figcaption>Virulence in <em>Galleria mellonella</em> infection models</figcaption>
-      </figure>
+      <div class="col">
+        <figure class="figure">
+          <img src="{{imageUrl}}/{{name}}.png" class="figure-img img-fluid" style="max-height:50em" alt="Virulence in Galleria mellonella infection models">
+          <figcaption class="figure-caption">Virulence in <em>Galleria mellonella</em> infection models.</figcaption>
+        </figure>
+      </div>
       {{/model}}
-
-      {{#genbank}}
-      <a href="{{genbank}}">GenBank</a>
-      {{/genbank}}
     </div>
+
+    {{>templates/footer.html}}
   </body>
 </html>
