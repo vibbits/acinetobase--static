@@ -40,8 +40,7 @@ import           Text.Mustache.Render       (substitute)
 -- Config ---------------------------------------------------------------------
 
 data SiteMeta =
-  SiteMeta { siteAuthor      :: String
-           , baseUrl         :: String
+  SiteMeta { baseUrl         :: String
            , imageUrl        :: String
            , siteTitle       :: String
            , siteDescription :: String
