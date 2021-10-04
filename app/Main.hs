@@ -9,7 +9,7 @@ import           Prelude
 import qualified Control.Exception          as Exception
 import           Control.Monad              (filterM)
 import           Data.Aeson                 (ToJSON,
-                                             Value (Array, Object, String),
+                                             Value (Array, Bool, Object, String),
                                              toJSON)
 import qualified Data.ByteString.Lazy       as BL
 import           Data.Char                  (ord)
@@ -22,6 +22,8 @@ import           Data.HashMap.Strict        ((!?))
 import qualified Data.HashMap.Strict        as HM
 import qualified Data.Set                   as Set
 import qualified Data.Text                  as T
+import           Data.Time                  (Day)
+import           Data.Time.Clock            (getCurrentTime, utctDay)
 import           Data.Vector                (Vector, fromList, toList)
 import           Development.Shake          (Action, ShakeOptions (shakeFiles),
                                              copyFileChanged, forP,
@@ -43,16 +45,18 @@ data SiteMeta =
            , imageUrl        :: String
            , siteTitle       :: String
            , siteDescription :: String
+           , lastUpdate      :: Day
            }
   deriving (Generic, Eq, Ord, Show, ToJSON)
 
-siteMeta :: SiteMeta
-siteMeta =
+siteMeta :: Day -> SiteMeta
+siteMeta day =
   SiteMeta { siteAuthor = "James Collier"
            , baseUrl = "https://acinetobase.vib.be"
            , imageUrl = "/images"
            , siteTitle = "Acinetobase"
            , siteDescription = "Compendium of Experiments in the Lab"
+           , lastUpdate = day
            }
 
 outputDir :: FilePath
@@ -117,11 +121,15 @@ withMeta _ _ = error "Invalid metadata"
 
 withUrl :: String -> Value
 withUrl url =
-  Object $ HM.singleton (T.pack "url") (String $ T.pack url)
+  Object $ HM.singleton "url" (String $ T.pack url)
 
 withIsolatesIndex :: Vector Isolate -> Value
 withIsolatesIndex isolates =
-  Object $ HM.singleton (T.pack "isolates") (Array $ toJSON <$> isolates)
+  Object $ HM.singleton "isolates" (Array $ toJSON <$> isolates)
+
+withAbout :: Value
+withAbout =
+  Object $ HM.singleton "about" $ Bool True
 
 --- Build helpers -------------------------------------------------------------
 
@@ -152,28 +160,28 @@ filesFromIsolates isolates =
 
 --- Build Actions -------------------------------------------------------------
 
-buildIsolatePage :: Isolate -> Action ()
-buildIsolatePage isolate = do
+buildIsolatePage :: Day -> Isolate -> Action ()
+buildIsolatePage day isolate = do
   let url = isolateFile isolate
   template <- compileTemplate' "templates/isolate.html"
-  let pageData = withMeta siteMeta . withMeta isolate $ withUrl url
+  let pageData = withMeta (siteMeta day) . withMeta isolate $ withUrl url
   writeFile' (outputDir </> url) . T.unpack $ substitute template pageData
 
-buildIndex :: Vector Isolate -> Action ()
-buildIndex isolates = do
+buildIndex :: Day -> Vector Isolate -> Action ()
+buildIndex day isolates = do
   indexT <- compileTemplate' "templates/index.html"
-  let indexData = withMeta siteMeta $ withIsolatesIndex isolates
+  let indexData = withMeta (siteMeta day) $ withIsolatesIndex isolates
   writeFile' (outputDir </> "index.html") . T.unpack $ substitute indexT indexData
 
 
 -- Top Level ------------------------------------------------------------------
 
-buildRules :: Vector Isolate -> IO ()
-buildRules isolates = do
+buildRules :: Day -> Vector Isolate -> IO ()
+buildRules day isolates = do
   shakeArgs shakeOptions{shakeFiles="_build/"} $ do
     let outputFiles = filesFromIsolates isolates
 
-    want $ toList outputFiles ++ [outputDir </> "index.html"]
+    want $ toList outputFiles ++ [outputDir </> "index.html", outputDir </> "about.html"]
 
     phony "clean" $ do
       putInfo "Cleaning..."
@@ -182,8 +190,14 @@ buildRules isolates = do
 
     outputDir </> "index.html" %> \_ -> do
       static <- getDirectoryFiles "static" ["*.webp", "*.svg", "*.jpg", "*.png", "vib.css", "Dense-Regular.otf"]
-      need ((sourceDir </> "metadata.csv") : ((outputDir </>) <$> static))
-      buildIndex isolates
+      need ((sourceDir </> "metadata.csv") : ("templates" </> "index.html") : ((outputDir </>) <$> static))
+      buildIndex day isolates
+
+    outputDir </> "about.html" %> \_ -> do
+      need ["templates" </> "about.html"]
+      template <- compileTemplate' "templates/about.html"
+      let pageData = withMeta (siteMeta day) $ withAbout
+      writeFile' (outputDir </> "about.html") . T.unpack $ substitute template pageData
 
     outputDir </> "*.webp" %> \output -> do
       need ["static" </> takeFileName output]
@@ -216,7 +230,7 @@ buildRules isolates = do
 
     outputDir </> "isolates" </> "*.html" %> \_ -> do
       need [sourceDir </> "metadata.csv"]
-      _ <- forP (toList isolates) buildIsolatePage
+      _ <- forP (toList isolates) $ buildIsolatePage day
       pure ()
 
 updateIsolates :: Vector Isolate -> HM.HashMap FilePath (Set.Set FilePath) -> Vector Isolate
@@ -237,6 +251,7 @@ updateIsolates isolates files =
 
 main :: IO ()
 main = do
+  day <- utctDay <$> getCurrentTime
   isos <- decodeIsolatesFromFile $ sourceDir </> "metadata.csv"
 
   sourceDirContents <- HM.fromList <$> (
@@ -246,6 +261,6 @@ main = do
     )
 
   case isos of
-    Right isolates -> buildRules $ updateIsolates isolates sourceDirContents
+    Right isolates -> buildRules day $ updateIsolates isolates sourceDirContents
     Left err       -> putStrLn err
 

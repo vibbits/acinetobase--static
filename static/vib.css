@@ -38,3 +38,9 @@
     color: #fff;
     background-color: #ff681e;
 }
+
+.vib-btn-disabled {
+    font-family: Dense;
+    font-size: 2em;
+    color: #333;
+}
