@@ -51,8 +51,9 @@ data SiteMeta =
 
 siteMeta :: Day -> SiteMeta
 siteMeta day =
-  SiteMeta { siteAuthor = "James Collier"
-           , baseUrl = "https://acinetobase.vib.be"
+  SiteMeta {
+           --, baseUrl = "https://acinetobase.vib.be"
+           , baseUrl = "https://vibbits.github.io/acinetobase-static/"
            , imageUrl = "/images"
            , siteTitle = "Acinetobase"
            , siteDescription = "Compendium of Experiments in the Lab"

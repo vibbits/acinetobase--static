@@ -14,16 +14,16 @@
   <div class="container-fluid">
     {{#about}}
     <span>
-      <a type="button" class="btn vib-btn" href="/">Home</a>
+      <a type="button" class="btn vib-btn" href="{{baseUrl}}/">Home</a>
       <span>/</span>
       <a type="button" class="btn vib-btn-disabled" disabled aria-current="page">About</a>
     </span>
-    <a type="button" class="btn vib-btn-disabled" disabled href="/about.html">About</a>
+    <a type="button" class="btn vib-btn-disabled" disabled href="{{baseUrl}}/about.html">About</a>
     {{/about}}
     {{^about}}
     <span>
       {{#url}}
-      <a type="button" class="btn vib-btn" href="/">Home</a>
+      <a type="button" class="btn vib-btn" href="{{baseUrl}}/">Home</a>
       <span>/</span>
       <a type="button" class="btn vib-btn-disabled" disabled aria-current="page">{{name}}</a>
       {{/url}}
@@ -31,7 +31,7 @@
       <a type="button" class="btn vib-btn-disabled" disabled aria-current="page">Home</a>
       {{/url}}
     </span>
-    <a type="button" class="btn vib-btn" href="/about.html">About</a>
+    <a type="button" class="btn vib-btn" href="{{baseUrl}}/about.html">About</a>
     {{/about}}
   </div>
 </nav>
