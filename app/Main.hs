@@ -53,7 +53,7 @@ siteMeta :: Day -> SiteMeta
 siteMeta day =
   SiteMeta {
            --, baseUrl = "https://acinetobase.vib.be"
-           , baseUrl = "https://vibbits.github.io/acinetobase-static/"
+            baseUrl = "https://vibbits.github.io/acinetobase-static/"
            , imageUrl = "/images"
            , siteTitle = "Acinetobase"
            , siteDescription = "Compendium of Experiments in the Lab"
