@@ -1,7 +1,7 @@
 @font-face
 {
     font-family: Dense;
-    src: url(/Dense-Regular.otf);
+    src: url({{baseUrl}}/Dense-Regular.otf);
 }
 
 

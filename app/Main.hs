@@ -50,9 +50,9 @@ data SiteMeta =
 
 siteMeta :: Day -> SiteMeta
 siteMeta day =
-  SiteMeta {
+  SiteMeta { baseUrl = "/acinetobase-static"
            --, baseUrl = "https://acinetobase.vib.be"
-            baseUrl = "https://vibbits.github.io/acinetobase-static/"
+           -- baseUrl = "https://vibbits.github.io/acinetobase-static/"
            , imageUrl = "/images"
            , siteTitle = "Acinetobase"
            , siteDescription = "Compendium of Experiments in the Lab"
@@ -217,7 +217,9 @@ buildRules day isolates = do
 
     outputDir </> "vib.css" %> \css -> do
       need ["static" </> takeFileName css]
-      copyFileChanged ("static" </> takeFileName css) css
+      cssTemplate <- compileTemplate' $ "static" </> takeFileName css
+      let cssData = withMeta (siteMeta day) $ Object HM.empty
+      writeFile' css . T.unpack $ substitute cssTemplate cssData
 
     outputDir </> "Dense-Regular.otf" %> \font -> do
       need ["static" </> takeFileName font]
