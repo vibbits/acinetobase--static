@@ -1,7 +1,7 @@
 # Acinetobase
 ### Compendium of Experiments in the Lab
 
-<img src="" align="right" alt="Acinetobase logo" width="200" height="200" />
+<img src="https://raw.githubusercontent.com/vibbits/acinetobase-static/master/static/logo.png" align="right" alt="Acinetobase logo" width="200" height="200" />
 
 Static site for the Acinetobacter baumannii database. Data is sourced from a table of metadata and a directory of
 images. Database includes microscope images, density plots, and GenBank links.
