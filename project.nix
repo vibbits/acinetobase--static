@@ -14,5 +14,5 @@ mkDerivation {
     vector
   ];
   description = "Acinetobase: Compendium of Experiments in the Lab";
-  license = lib.licenses.bsd3;
+  license = lib.licenses.gpl3Plus;
 }

@@ -12,7 +12,8 @@ synopsis: Acinetobase: Compendium of Experiments in the Lab
 -- bug-reports:
 
 -- The license under which the package is released.
-license: BSD-3-Clause
+license:            GPL-3.0-or-later
+license-file:       LICENSE
 author:             James Collier
 maintainer:         james.collier@vib.be
 
