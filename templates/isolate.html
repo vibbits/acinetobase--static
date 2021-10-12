@@ -6,8 +6,8 @@
   <body class="container">
     {{>templates/header.html}}
 
-    <div class="container text-center">
-      <h1 class="display-1">{{name}}</h1>
+<div id="center" class="content">
+      <h1 class="vib-header text-vib-blue">{{name}}</h1>
 
       <table class="table">
         <thead>
@@ -28,18 +28,19 @@
             <td>{{st}}</td>
             <td>{{ocl}}</td>
             {{#genbank}}
-            <td><a href="{{genbank}}">GenBank</a></td>
+            <td><a href="{{genbank}}" target="_blank">GenBank</a></td>
             {{/genbank}}
           </tr>
         </tbody>
       </table>
     </div>
 
+<div id="center" class="content">
     <div class="row">
       {{#density}}
       <div class="col">
         <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_density.png" class="figure-img img-fluid" style="max-height:50em" alt="Density gradient"/>
+          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_density.png" class="figure-img img-fluid" style="max-height:30em" alt="Density gradient"/>
           <figcaption class="figure-caption">Density gradient.</figcaption>
         </figure>
       </div>
@@ -48,7 +49,7 @@
       {{#colony}}
       <div class="col">
         <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_colony.jpg" class="figure-img img-fluid" style="max-height:50em" alt="Colony morphology"/>
+          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_colony.jpg" class="figure-img img-fluid" style="max-height:30em" alt="Colony morphology"/>
           <figcaption class="figure-caption">Colony morphology.</figcaption>
         </figure>
       </div>
@@ -57,7 +58,7 @@
       {{#microscope}}
       <div class="col">
         <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_TEM.png" class="figure-img img-fluid" style="max-height:50em" alt="Transmission Electron Microscopy"/>
+          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_TEM.png" class="figure-img img-fluid" style="max-height:30em" alt="Transmission Electron Microscopy"/>
           <figcaption class="figure-caption">Transmission Electron Microscopy.</figcaption>
         </figure>
       </div>
@@ -66,13 +67,13 @@
       {{#model}}
       <div class="col">
         <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}.png" class="figure-img img-fluid" style="max-height:50em" alt="Virulence in Galleria mellonella infection models">
+          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}.png" class="figure-img img-fluid" style="max-height:30em" alt="Virulence in Galleria mellonella infection models">
           <figcaption class="figure-caption">Virulence in <em>Galleria mellonella</em> infection models.</figcaption>
         </figure>
       </div>
       {{/model}}
     </div>
-
+</div>
     {{>templates/footer.html}}
   </body>
 </html>
