@@ -29,6 +29,9 @@ executable build-site
     -- other-modules:
 
     -- LANGUAGE extensions used by modules in this package.
+    default-extensions: OverloadedStrings
+                        DeriveAnyClass
+                        DeriveGeneric
     -- other-extensions:
     ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wpartial-fields -Wmissing-home-modules -Widentities -Wredundant-constraints
     build-depends:
