@@ -113,7 +113,7 @@ withMeta :: (ToJSON a) => a -> Value -> Value
 withMeta meta (Object obj) = Object $ HM.union obj metaObj
   where
     Object metaObj = toJSON meta
-withMeta _ _ = error "Invalid metadata"
+withMeta _ _               = error "Invalid metadata"
 
 withUrl :: String -> Value
 withUrl url =
@@ -192,7 +192,7 @@ buildRules day isolates = do
     outputDir </> "about.html" %> \_ -> do
       need ["templates" </> "about.html"]
       template <- compileTemplate' "templates/about.html"
-      let pageData = withMeta (siteMeta day) $ withAbout
+      let pageData = withMeta (siteMeta day) withAbout
       writeFile' (outputDir </> "about.html") . T.unpack $ substitute template pageData
 
     outputDir </> "*.webp" %> \output -> do
