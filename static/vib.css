@@ -98,21 +98,14 @@ footer {
 
 /** Specific classes **/
 
-.vib-main-header {
+.vib-h1 {
     font-family: Dense;
     font-size: 72px;
-    margin-bottom: 0px;
-    margin-top: 0px;
 }
 
-.vib-secondary-header {
+.vib-h3 {
     font-family: Dense-Bold;
     font-size: 30px;
-    margin-top: 0px;
-}
-.vib-main-heading {
-    font-size: 2.375rem;
-    margin: 20px 0px 20px 0px;
 }
 
 .vib-btn {
@@ -167,33 +160,16 @@ footer {
     background: #1b2944;
 }
 
-.logo-small {
+.vib-logo-small {
     height: 18px;
 }
-.banner-small {
+.banner {
     min-height: 220px;
-    background-image:url("{{baseUrl}}/banner.jpg");
-    background-position: center;
-}
-.container-header-title {
-    position: relative;
-    text-align: center;
-    top: 43px;
-}
-
-.sticky-vib-bar {
-    top: 0px;
-    width: 100%;
-    height: 43px;
+    background: #1b2944 url("{{baseUrl}}/banner.jpg") no-repeat 100% center;
 }
 
 .vib-nav {
     text-align: right;
-}
-
-.sticky-banner {
-    width: 100%;
-    height: 220px;
 }
 
 .vib-main-footer {

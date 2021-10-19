@@ -1,11 +1,14 @@
 <div class="d-flex flex-row vib-bar-breadcrumb bg-vib-blue">
   <a href="https://vib.be" target="_blank" rel="noopener noreferrer" class="vib-main-site d-flex justify-content-center align-items-center">
-    <img class="logo-small" src="{{baseUrl}}/download.svg">
+    <img class="vib-logo-small" src="{{baseUrl}}/download.svg">
   </a>
 </div>
 
 <nav class="navbar navbar-expand-sm bg-vib-light-grey" style="z-index: 2">
   <div class="container-fluid vib-nav">
+    <a class="navbar-brand" href="{{baseUrl}}">
+      <img src="{{baseUrl}}/logo.webp" alt="Acinetobase logo" width="90" height="90">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="bi bi-list"></i>
     </button>
@@ -18,11 +21,7 @@
   </div>
 </nav>
 
-<div class="sticky-banner">
-  <div class="banner-small bg-vib-blue">
-    <div class="container-header-title">
-      <h1 class="vib-main-header text-vib-white">{{siteTitle}}</h1>
-      <h3 class="vib-secondary-header text-vib-white">{{siteDescription}}</h3>
-    </div>
-  </div>
+<div class="d-flex flex-column justify-content-center align-items-center text-center banner bg-vib-blue">
+  <h1 class="vib-h1 text-vib-white">{{siteTitle}}</h1>
+  <h3 class="vib-h3 text-vib-white">{{siteDescription}}</h3>
 </div>
