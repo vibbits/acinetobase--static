@@ -103,6 +103,12 @@ footer {
     font-size: 72px;
 }
 
+.vib-h2 {
+    font-family: 'Barlow Condensed', Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
 .vib-h3 {
     font-family: Dense-Bold;
     font-size: 30px;
