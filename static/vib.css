@@ -171,7 +171,7 @@ footer {
 }
 .banner {
     min-height: 220px;
-    background: #1b2944 url("{{baseUrl}}/banner.jpg") no-repeat 100% center;
+    background: #1b2944 url("{{baseUrl}}/banner.jpg") no-repeat 50% center;
 }
 
 .vib-nav {
