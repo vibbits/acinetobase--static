@@ -1,37 +1,25 @@
-<header class="container bg-vib-blue">
-  <div class="row align-items-center">
-    <div class="col">
-      <img src="{{baseUrl}}/logo.webp" alt="Acinetobase logo">
+<div class="sticky-vib-bar">
+    <div class="vib-bar-breadcrumb bg-vib-blue">
+    <span><a href="https://vib.be" target="_blank"><img class="logo-small" src="download.svg"></a></span>
     </div>
-    <div class="col-9">
-      <h1 class="vib-main-header text-vib-white">{{siteTitle}}</h1>
-      <h3 class="vib-secondary-header text-vib-orange">{{siteDescription}}</h3>
-    </div>
-  </div>
-</header>
+</div>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="breadcrumb">
-  <div class="container-fluid">
-    {{#about}}
+<div class="sticky-nav">
+    <div class="container-fluid" id="center">
     <span>
-      <a type="button" class="btn vib-btn" href="{{baseUrl}}/">Home</a>
-      <span>/</span>
-      <a type="button" class="btn vib-btn-disabled" disabled aria-current="page">About</a>
+      <a type="button" class="btn vib-btn" href="{{baseUrl}}/">HOME</a>
     </span>
-    <a type="button" class="btn vib-btn-disabled" disabled href="{{baseUrl}}/about.html">About</a>
-    {{/about}}
-    {{^about}}
-    <span>
-      {{#url}}
-      <a type="button" class="btn vib-btn" href="{{baseUrl}}/">Home</a>
-      <span>/</span>
-      <a type="button" class="btn vib-btn-disabled" disabled aria-current="page">{{name}}</a>
-      {{/url}}
-      {{^url}}
-      <a type="button" class="btn vib-btn-disabled" disabled aria-current="page">Home</a>
-      {{/url}}
-    </span>
-    <a type="button" class="btn vib-btn" href="{{baseUrl}}/about.html">About</a>
-    {{/about}}
+	<span>
+    <a type="button" class="btn vib-btn" disabled href="{{baseUrl}}/about.html">ABOUT</a>
+	</span>
   </div>
-</nav>
+</div>
+
+<div class="sticky-banner">
+    <div class="banner-small">
+    	<div class="container-header-title">
+    	<h1 class="vib-main-header text-vib-white">{{siteTitle}}</h1>
+    	<h3 class="vib-secondary-header text-vib-white">{{siteDescription}}</h3>
+    	</div>
+    </div>
+</div>
