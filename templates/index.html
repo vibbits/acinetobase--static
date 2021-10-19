@@ -3,30 +3,30 @@
   <head>
     {{>templates/head.html}}
   </head>
-  <body class="container">
+  <body>
     {{>templates/header.html}}
 
-<div id="center" class="content">
-	<h1 class="vib-header text-vib-blue">Collection</h1>
-    <table class="table table-striped table-hover">
-      <thead>
-        <th scope="col">Strain</th>
-        <th scope="col">Capsule locus type</th>
-        <th scope="col">Sequence type</th>
-        <th scope="col">OCL</th>
-      </thead>
-      <tbody>
-        {{#isolates}}
-        <tr>
-          <th scope="row"><a href="{{baseUrl}}/isolates/{{name}}.html">{{name}}</a></th>
-          <td>{{kl}}</td>
-          <td>{{st}}</td>
-          <td>{{ocl}}</td>
-        </tr>
-        {{/isolates}}
-      </tbody>
-    </table>
-</div>
+    <div class="container">
+      <h1 class="vib-main-heading text-vib-blue">Collection</h1>
+      <table class="table table-striped table-hover">
+        <thead>
+          <th scope="col">Strain</th>
+          <th scope="col">Capsule locus type</th>
+          <th scope="col">Sequence type</th>
+          <th scope="col">OCL</th>
+        </thead>
+        <tbody>
+          {{#isolates}}
+          <tr>
+            <th scope="row"><a href="{{baseUrl}}/isolates/{{name}}.html">{{name}}</a></th>
+            <td>{{kl}}</td>
+            <td>{{st}}</td>
+            <td>{{ocl}}</td>
+          </tr>
+          {{/isolates}}
+        </tbody>
+      </table>
+    </div>
 
     {{>templates/footer.html}}
   </body>

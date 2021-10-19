@@ -185,7 +185,7 @@ buildRules day isolates = do
       removeFilesAfter "_site" ["//*"]
 
     outputDir </> "index.html" %> \_ -> do
-      static <- getDirectoryFiles "static" ["*.webp", "*.svg", "*.jpg", "*.png", "vib.css", "Dense-Regular.otf"]
+      static <- getDirectoryFiles "static" ["*.webp", "*.svg", "*.jpg", "*.png", "vib.css", "Dense-Regular.otf", "Dense-Bold.otf"]
       need ((sourceDir </> "metadata.csv") : ("templates" </> "index.html") : ((outputDir </>) <$> static))
       buildIndex day isolates
 
@@ -217,7 +217,7 @@ buildRules day isolates = do
       let cssData = withMeta (siteMeta day) $ Object HM.empty
       writeFile' css . T.unpack $ substitute cssTemplate cssData
 
-    outputDir </> "Dense-Regular.otf" %> \font -> do
+    outputDir </> "*.otf" %> \font -> do
       need ["static" </> takeFileName font]
       copyFileChanged ("static" </> takeFileName font) font
 

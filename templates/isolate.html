@@ -3,11 +3,11 @@
   <head>
     {{>templates/head.html}}
   </head>
-  <body class="container">
+  <body>
     {{>templates/header.html}}
 
-<div id="center" class="content">
-      <h1 class="vib-header text-vib-blue">{{name}}</h1>
+    <div class="container">
+      <h1 class="vib-main-heading text-vib-blue">{{name}}</h1>
 
       <table class="table">
         <thead>
@@ -35,45 +35,45 @@
       </table>
     </div>
 
-<div id="center" class="content">
-    <div class="row">
-      {{#density}}
-      <div class="col">
-        <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_density.png" class="figure-img img-fluid" style="max-height:30em" alt="Density gradient"/>
-          <figcaption class="figure-caption">Density gradient.</figcaption>
-        </figure>
-      </div>
-      {{/density}}
+    <div id="center" class="content">
+      <div class="row">
+        {{#density}}
+        <div class="col">
+          <figure class="figure">
+            <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_density.png" class="figure-img img-fluid" style="max-height:30em" alt="Density gradient"/>
+            <figcaption class="figure-caption">Density gradient.</figcaption>
+          </figure>
+        </div>
+        {{/density}}
 
-      {{#colony}}
-      <div class="col">
-        <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_colony.jpg" class="figure-img img-fluid" style="max-height:30em" alt="Colony morphology"/>
-          <figcaption class="figure-caption">Colony morphology.</figcaption>
-        </figure>
-      </div>
-      {{/colony}}
+        {{#colony}}
+        <div class="col">
+          <figure class="figure">
+            <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_colony.jpg" class="figure-img img-fluid" style="max-height:30em" alt="Colony morphology"/>
+            <figcaption class="figure-caption">Colony morphology.</figcaption>
+          </figure>
+        </div>
+        {{/colony}}
 
-      {{#microscope}}
-      <div class="col">
-        <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_TEM.png" class="figure-img img-fluid" style="max-height:30em" alt="Transmission Electron Microscopy"/>
-          <figcaption class="figure-caption">Transmission Electron Microscopy.</figcaption>
-        </figure>
-      </div>
-      {{/microscope}}
+        {{#microscope}}
+        <div class="col">
+          <figure class="figure">
+            <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_TEM.png" class="figure-img img-fluid" style="max-height:30em" alt="Transmission Electron Microscopy"/>
+            <figcaption class="figure-caption">Transmission Electron Microscopy.</figcaption>
+          </figure>
+        </div>
+        {{/microscope}}
 
-      {{#model}}
-      <div class="col">
-        <figure class="figure">
-          <img src="{{baseUrl}}/{{imageUrl}}/{{name}}.png" class="figure-img img-fluid" style="max-height:30em" alt="Virulence in Galleria mellonella infection models">
-          <figcaption class="figure-caption">Virulence in <em>Galleria mellonella</em> infection models.</figcaption>
-        </figure>
+        {{#model}}
+        <div class="col">
+          <figure class="figure">
+            <img src="{{baseUrl}}/{{imageUrl}}/{{name}}.png" class="figure-img img-fluid" style="max-height:30em" alt="Virulence in Galleria mellonella infection models">
+            <figcaption class="figure-caption">Virulence in <em>Galleria mellonella</em> infection models.</figcaption>
+          </figure>
+        </div>
+        {{/model}}
       </div>
-      {{/model}}
     </div>
-</div>
     {{>templates/footer.html}}
   </body>
 </html>
