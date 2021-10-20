@@ -1,0 +1,25 @@
+/** Acinetobase specific CSS **/
+
+div#vub-logo-container {
+    padding-top: 13px;
+}
+
+div#vib-vub-csb-logo-container {
+    padding-top: 3px;
+}
+
+div#vib-bits-logo-container {
+    padding-top: 3px;
+}
+
+img#vib-vub-csb-logo {
+    height: 58px;
+}
+
+img#vib-bits-logo {
+    height: 58px;
+}
+
+img.a-fig {
+    max-height: 30em;
+}
