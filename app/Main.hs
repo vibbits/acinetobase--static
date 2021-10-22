@@ -6,7 +6,7 @@ import qualified Control.Exception          as Exception
 import           Control.Monad              (filterM)
 import           Data.Aeson                 (ToJSON,
                                              Value (Array, Bool, Object, String),
-                                             toJSON)
+                                             encode, toJSON)
 import qualified Data.ByteString.Lazy       as BL
 import           Data.Char                  (ord)
 import           Data.Csv                   (DecodeOptions (decDelimiter),
@@ -23,8 +23,8 @@ import           Data.Time.Clock            (getCurrentTime, utctDay)
 import           Data.Vector                (Vector, fromList, toList)
 import           Development.Shake          (Action, ShakeOptions (shakeFiles),
                                              copyFileChanged, forP,
-                                             getDirectoryFiles, need, phony,
-                                             putInfo, removeFilesAfter,
+                                             getDirectoryFiles, liftIO, need,
+                                             phony, putInfo, removeFilesAfter,
                                              shakeArgs, shakeOptions, want,
                                              writeFile', (%>))
 import           Development.Shake.FilePath (takeBaseName, takeFileName, (</>))
@@ -98,6 +98,7 @@ decodeIsolatesFromFile :: FilePath -> IO (Either String (Vector Isolate))
 decodeIsolatesFromFile filePath =
   catchShowIO (dropBOM <$> BL.readFile filePath) <&> either Left decodeIsolates
   where
+    -- Remove the byte-order mark if it's there.
     dropBOM :: BL.ByteString -> BL.ByteString
     dropBOM bs | BL.take 3 bs == BL.pack [0xEF, 0xBB, 0xBF] = BL.drop 3 bs
                | otherwise = bs
@@ -185,8 +186,16 @@ buildRules day isolates = do
       removeFilesAfter "_site" ["//*"]
 
     outputDir </> "index.html" %> \_ -> do
-      static <- getDirectoryFiles "static" ["*.webp", "*.svg", "*.jpg", "*.png", "vib.css", "acinetobase.css", "Dense-Regular.otf", "Dense-Bold.otf"]
-      need ((sourceDir </> "metadata.csv") : ("templates" </> "index.html") : ((outputDir </>) <$> static))
+      static <- getDirectoryFiles "static" [ "*.webp"
+                                          , "*.svg"
+                                          , "*.jpg"
+                                          , "*.png"
+                                          , "vib.css"
+                                          , "acinetobase.css"
+                                          , "Dense-Regular.otf"
+                                          , "Dense-Bold.otf"
+                                          ]
+      need ((sourceDir </> "metadata.csv") : ("templates" </> "index.html") : (outputDir </> "isolates.json") : ((outputDir </>) <$> static))
       buildIndex day isolates
 
     outputDir </> "about.html" %> \_ -> do
@@ -230,6 +239,10 @@ buildRules day isolates = do
       need [sourceDir </> "metadata.csv"]
       _ <- forP (toList isolates) $ buildIsolatePage day
       pure ()
+
+    outputDir </> "isolates.json" %> \output -> do
+      need [sourceDir </> "metadata.csv"]
+      liftIO $ BL.writeFile output $ encode isolates
 
 updateIsolates :: Vector Isolate -> HM.HashMap FilePath (Set.Set FilePath) -> Vector Isolate
 updateIsolates isolates files =
