@@ -18,6 +18,9 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
       - run: nix-build
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Build
         run: ./result/bin/build-site
       
