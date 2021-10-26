@@ -11,6 +11,7 @@ import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Effect.Console (log)
 import Effect.Exception as Exception
+import Foreign.Object as Obj
 import React.Basic (JSX, fragment)
 import React.Basic.DOM as DOM
 import React.Basic.DOM.Events (targetValue)
@@ -59,26 +60,52 @@ mkApp = Hooks.component "App" \isos -> Hooks.do
 
   pure do
     fragment
-      [ DOM.select_
-          [ DOM.option { onClick: handler_ $ setFeature {feature: "name", query}
-                       , children: [ DOM.text "Name" ]
-                       }
-          , DOM.option { onClick: handler_ $ setFeature {feature: "st", query}
-                       , children: [ DOM.text "ST" ]
-                       }
-          , DOM.option { onClick: handler_ $ setFeature {feature:"kl", query}
-                       , children: [ DOM.text "KL" ]
-                       }
-          , DOM.option { onClick: handler_ $ setFeature {feature:"ocl", query}
-                       , children: [ DOM.text "OCL" ]
-                       }
-          , DOM.option { onClick: handler_ $ setFeature {feature:"mt", query}
-                       , children: [ DOM.text "MT" ]
-                       }
-          ]
-      , DOM.input { type: "text"
-                  , onChange: handler targetValue (\value -> setFeature {feature, query: fromMaybe "" value})
-                  , value: query
+      [ DOM.div { className: "input-group mb-3"
+                , children: [ DOM.div { className: "form-floating flex-grow-1 me-sm-4 my-1 me-0"
+                                      , children: [ DOM.select { className: "form-select"
+                                                               , id: "filterField"
+                                                               , _aria: Obj.fromFoldable [("label" /\ "Filter criteria")]
+                                                               , children: [ DOM.option { onClick: handler_ $ setFeature {feature: "name", query}
+                                                                                        , selected: feature == "name"
+                                                                                        , children: [ DOM.text "Name" ]
+                                                                                        }
+                                                                           , DOM.option { onClick: handler_ $ setFeature {feature: "st", query}
+                                                                                        , selected: feature == "st"
+                                                                                        , children: [ DOM.text "ST" ]
+                                                                                        }
+                                                                           , DOM.option { onClick: handler_ $ setFeature {feature:"kl", query}
+                                                                                        , selected: feature == "kl"
+                                                                                        , children: [ DOM.text "KL" ]
+                                                                                        }
+                                                                           , DOM.option { onClick: handler_ $ setFeature {feature:"ocl", query}
+                                                                                        , selected: feature == "ocl"
+                                                                                        , children: [ DOM.text "OCL" ]
+                                                                                        }
+                                                                           , DOM.option { onClick: handler_ $ setFeature {feature:"mt", query}
+                                                                                        , selected: feature == "mt"
+                                                                                        , children: [ DOM.text "MT" ]
+                                                                                        }
+                                                                           ]
+                                                               }
+                                                    , DOM.label { htmlFor: "filterField"
+                                                                , children: [ DOM.text "filter field" ]
+                                                                }
+                                                    ]
+                                      }
+                            , DOM.div { className: "form-floating flex-grow-1 ms-sm-4 my-1 ms-0"
+                                      , children: [ DOM.input { type: "text"
+                                                              , className: "form-control"
+                                                              , id: "filterInput"
+                                                              , placeholder: "filter term"
+                                                              , onChange: handler targetValue (\value -> setFeature {feature, query: fromMaybe "" value})
+                                                              , value: query
+                                                              }
+                                                  , DOM.label { htmlFor: "filterInput"
+                                                              , children: [ DOM.text "filter term" ]
+                                                              }
+                                                  ]
+                                      }
+                            ]
                   }
       , DOM.table { className: "table table-striped table-hover"
                   , children: [ DOM.thead_
