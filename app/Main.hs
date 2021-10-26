@@ -7,6 +7,7 @@ import           Control.Monad              (filterM)
 import           Data.Aeson                 (ToJSON,
                                              Value (Array, Bool, Object, String),
                                              encode, toJSON)
+import           Data.ByteString.Builder    (stringUtf8, toLazyByteString)
 import qualified Data.ByteString.Lazy       as BL
 import           Data.Char                  (ord)
 import           Data.Csv                   (DecodeOptions (decDelimiter),
@@ -22,7 +23,7 @@ import           Data.Time                  (Day)
 import           Data.Time.Clock            (getCurrentTime, utctDay)
 import           Data.Vector                (Vector, fromList, toList)
 import           Development.Shake          (Action, ShakeOptions (shakeFiles),
-                                             copyFileChanged, forP,
+                                             cmd_, copyFileChanged, forP,
                                              getDirectoryFiles, liftIO, need,
                                              phony, putInfo, removeFilesAfter,
                                              shakeArgs, shakeOptions, want,
@@ -177,8 +178,9 @@ buildRules :: Day -> Vector Isolate -> IO ()
 buildRules day isolates = do
   shakeArgs shakeOptions{shakeFiles="_build/"} $ do
     let outputFiles = filesFromIsolates isolates
+    let base = toLazyByteString $ stringUtf8 $ baseUrl $ siteMeta day
 
-    want $ toList outputFiles ++ [outputDir </> "index.html", outputDir </> "about.html"]
+    want $ toList outputFiles ++ [outputDir </> "index.html", outputDir </> "about.html", outputDir </> "index.js"]
 
     phony "clean" $ do
       putInfo "Cleaning..."
@@ -195,7 +197,7 @@ buildRules day isolates = do
                                           , "Dense-Regular.otf"
                                           , "Dense-Bold.otf"
                                           ]
-      need ((sourceDir </> "metadata.csv") : ("templates" </> "index.html") : (outputDir </> "isolates.json") : ((outputDir </>) <$> static))
+      need ((sourceDir </> "metadata.csv") : ("templates" </> "index.html") : ((outputDir </>) <$> static))
       buildIndex day isolates
 
     outputDir </> "about.html" %> \_ -> do
@@ -240,9 +242,22 @@ buildRules day isolates = do
       _ <- forP (toList isolates) $ buildIsolatePage day
       pure ()
 
-    outputDir </> "isolates.json" %> \output -> do
+    outputDir </> "index.js" %> \js -> do
+      need [ "src" </> "Site.js"
+           , "src" </> "index.js"
+           , "src" </> "Main.purs"
+           , "src" </> "Site.purs"
+           ]
+      cmd_ ("npm run build" :: String)
+      copyFileChanged ("dist" </> "index.js") js
+
+    "src" </> "Site.js" %> \output -> do
       need [sourceDir </> "metadata.csv"]
-      liftIO $ BL.writeFile output $ encode isolates
+      liftIO $ BL.writeFile output
+        $ "\"use strict;\"\n\nexports.baseURL = \""
+        <> base <> "\";\n\n"
+        <> "exports.isolatesImpl = "
+        <> encode isolates <> ";\n"
 
 updateIsolates :: Vector Isolate -> HM.HashMap FilePath (Set.Set FilePath) -> Vector Isolate
 updateIsolates isolates files =

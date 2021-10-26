@@ -8,26 +8,28 @@
 
     <div class="container">
       <h2 class="vib-h2 text-vib-blue">Collection</h2>
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Strain</th>
-            <th scope="col">Capsule locus type</th>
-            <th scope="col">Sequence type</th>
-            <th scope="col">OCL</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#isolates}}
-          <tr>
-            <th scope="row"><a href="{{baseUrl}}/isolates/{{name}}.html">{{name}}</a></th>
-            <td>{{kl}}</td>
-            <td>{{st}}</td>
-            <td>{{ocl}}</td>
-          </tr>
-          {{/isolates}}
-        </tbody>
-      </table>
+      <main>
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Strain</th>
+              <th scope="col">Capsule locus type</th>
+              <th scope="col">Sequence type</th>
+              <th scope="col">OCL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#isolates}}
+            <tr>
+              <th scope="row"><a href="{{baseUrl}}/isolates/{{name}}.html">{{name}}</a></th>
+              <td>{{kl}}</td>
+              <td>{{st}}</td>
+              <td>{{ocl}}</td>
+            </tr>
+            {{/isolates}}
+          </tbody>
+        </table>
+      </main>
     </div>
 
     {{>templates/footer.html}}
