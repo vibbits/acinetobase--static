@@ -25,6 +25,7 @@ let
       pkgs.nodePackages.pscid
       pkgs.nodePackages.parcel-bundler
       pkgs.nodePackages.purty
+      pkgs.nodePackages.purescript-language-server
 
       # Node
       pkgs.nodePackages.npm
