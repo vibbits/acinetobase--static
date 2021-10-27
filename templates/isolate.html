@@ -9,30 +9,32 @@
     <div class="container">
       <h2 class="vib-h2 text-vib-blue">{{name}}</h2>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Strain</th>
-            <th scope="col">Capsule locus type</th>
-            <th scope="col">Sequence type</th>
-            <th scope="col">Outer core lipooligosaccharide type</th>
-            {{#genbank}}
-            <th scope="col">GenBank</th>
-            {{/genbank}}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">{{name}}</th>
-            <td>{{kl}}</td>
-            <td>{{st}}</td>
-            <td>{{ocl}}</td>
-            {{#genbank}}
-            <td><a href="{{genbank}}" target="_blank">GenBank</a></td>
-            {{/genbank}}
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Strain</th>
+              <th scope="col">Capsule locus type</th>
+              <th scope="col">Sequence type</th>
+              <th scope="col">Outer core lipooligosaccharide type</th>
+              {{#genbank}}
+              <th scope="col">GenBank</th>
+              {{/genbank}}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">{{name}}</th>
+              <td>{{kl}}</td>
+              <td>{{st}}</td>
+              <td>{{ocl}}</td>
+              {{#genbank}}
+              <td><a href="{{genbank}}" target="_blank">GenBank</a></td>
+              {{/genbank}}
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="row">
         {{#density}}
