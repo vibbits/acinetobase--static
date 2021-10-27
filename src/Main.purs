@@ -101,7 +101,7 @@ mkApp =
                             }
                         , DOM.label
                             { htmlFor: "filterField"
-                            , children: [ DOM.text "filter field" ]
+                            , children: [ DOM.text "Filter field" ]
                             }
                         ]
                     }
@@ -118,7 +118,8 @@ mkApp =
                             }
                         , DOM.label
                             { htmlFor: "filterInput"
-                            , children: [ DOM.text "filter term" ]
+                            , className: "text-muted"
+                            , children: [ DOM.text "Filter term" ]
                             }
                         ]
                     }
