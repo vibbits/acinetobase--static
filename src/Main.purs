@@ -73,32 +73,29 @@ mkApp =
                         [ DOM.select
                             { className: "form-select"
                             , id: "filterField"
+                            , value: feature
                             , _aria: Obj.fromFoldable [ ("label" /\ "Filter criteria") ]
+                            , onChange: handler targetValue (\value -> setFeature { feature: fromMaybe "name" value, query })
                             , children:
                                 [ DOM.option
-                                    { onClick: handler_ $ setFeature { feature: "name", query }
-                                    , selected: feature == "name"
+                                    { value: "name"
                                     , children: [ DOM.text "Name" ]
                                     }
                                 , DOM.option
-                                    { onClick: handler_ $ setFeature { feature: "st", query }
-                                    , selected: feature == "st"
-                                    , children: [ DOM.text "ST" ]
+                                    { value: "st"
+                                    , children: [ DOM.text "Sequence type" ]
                                     }
                                 , DOM.option
-                                    { onClick: handler_ $ setFeature { feature: "kl", query }
-                                    , selected: feature == "kl"
-                                    , children: [ DOM.text "KL" ]
+                                    { value: "kl"
+                                    , children: [ DOM.text "Capsule locus type" ]
                                     }
                                 , DOM.option
-                                    { onClick: handler_ $ setFeature { feature: "ocl", query }
-                                    , selected: feature == "ocl"
-                                    , children: [ DOM.text "OCL" ]
+                                    { value: "ocl"
+                                    , children: [ DOM.text "Outer core lipooligosaccharide type" ]
                                     }
                                 , DOM.option
-                                    { onClick: handler_ $ setFeature { feature: "mt", query }
-                                    , selected: feature == "mt"
-                                    , children: [ DOM.text "MT" ]
+                                    { value: "mt"
+                                    , children: [ DOM.text "Macrocolony type" ]
                                     }
                                 ]
                             }
@@ -135,7 +132,7 @@ mkApp =
                         [ DOM.th { scope: "col", children: [ DOM.text "Strain" ] }
                         , DOM.th { scope: "col", children: [ DOM.text "Capsule locus type" ] }
                         , DOM.th { scope: "col", children: [ DOM.text "Sequence type" ] }
-                        , DOM.th { scope: "col", children: [ DOM.text "OCL" ] }
+                        , DOM.th { scope: "col", children: [ DOM.text "Outer core lipooligosaccharide type" ] }
                         ]
                     ]
                 , table filtered
