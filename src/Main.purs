@@ -14,7 +14,7 @@ import Foreign.Object as Obj
 import React.Basic (JSX, fragment)
 import React.Basic.DOM as DOM
 import React.Basic.DOM.Events (targetValue)
-import React.Basic.Events (handler_, handler)
+import React.Basic.Events (handler)
 import React.Basic.Hooks as Hooks
 import Site (Isolate, isolates, baseURL)
 import Web.DOM.ParentNode (QuerySelector(..), querySelector)
@@ -37,9 +37,9 @@ table isos = DOM.tbody_ $ row <$> isos
                   }
               ]
           }
-      , DOM.td_ [ DOM.text iso.kl ]
-      , DOM.td_ [ DOM.text iso.st ]
-      , DOM.td_ [ DOM.text iso.ocl ]
+      , DOM.td { className: "text-center", children: [ DOM.text iso.kl ] }
+      , DOM.td { className: "text-center", children: [ DOM.text iso.st ] }
+      , DOM.td { className: "text-center", children: [ DOM.text iso.ocl ] }
       ]
 
 filterByField :: String -> String -> Isolate -> Boolean
@@ -68,7 +68,7 @@ mkApp =
             { className: "input-group mb-3"
             , children:
                 [ DOM.div
-                    { className: "form-floating flex-grow-1 me-sm-4 my-1 me-0"
+                    { className: "form-floating flex-grow-1 me-md-4 my-1 me-0"
                     , children:
                         [ DOM.select
                             { className: "form-select"
@@ -106,7 +106,7 @@ mkApp =
                         ]
                     }
                 , DOM.div
-                    { className: "form-floating flex-grow-1 ms-sm-4 my-1 ms-0"
+                    { className: "form-floating flex-grow-1 ms-md-4 my-1 ms-0"
                     , children:
                         [ DOM.input
                             { type: "text"
@@ -124,18 +124,23 @@ mkApp =
                     }
                 ]
             }
-        , DOM.table
-            { className: "table table-striped table-hover"
+        , DOM.div
+            { className: "table-responsive"
             , children:
-                [ DOM.thead_
-                    [ DOM.tr_
-                        [ DOM.th { scope: "col", children: [ DOM.text "Strain" ] }
-                        , DOM.th { scope: "col", children: [ DOM.text "Capsule locus type" ] }
-                        , DOM.th { scope: "col", children: [ DOM.text "Sequence type" ] }
-                        , DOM.th { scope: "col", children: [ DOM.text "Outer core lipooligosaccharide type" ] }
+                [ DOM.table
+                    { className: "table table-striped table-hover"
+                    , children:
+                        [ DOM.thead_
+                            [ DOM.tr_
+                                [ DOM.th { scope: "col", children: [ DOM.text "Strain" ] }
+                                , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Capsule locus type" ] }
+                                , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Sequence type" ] }
+                                , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Outer core lipooligosaccharide type" ] }
+                                ]
+                            ]
+                        , table filtered
                         ]
-                    ]
-                , table filtered
+                    }
                 ]
             }
         ]
