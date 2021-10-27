@@ -23,3 +23,11 @@ img#vib-bits-logo {
 img.a-fig {
     max-height: 30em;
 }
+
+a#acinetobase-logo img {
+    transition: filter 200ms ease-in-out;
+}
+
+a#acinetobase-logo img:hover {
+    filter: invert(50%) sepia(86%) saturate(403%) hue-rotate(131deg) brightness(104%) contrast(92%);
+}
