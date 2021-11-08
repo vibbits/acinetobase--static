@@ -72,6 +72,7 @@ data Isolate =
           , ocl        :: !T.Text
           , st         :: !T.Text
           , genbank    :: Maybe T.Text
+          , mt         :: !T.Text  -- Macrocolony Type
           }
   deriving (Generic, Eq, Show, ToJSON)
 
@@ -83,6 +84,7 @@ instance FromNamedRecord Isolate where
        <*> record .: "OCL"
        <*> record .: "ST"
        <*> record .: "GenBank"
+       <*> record .: "Macrocolony Type"
 
 decodeIsolates :: BL.ByteString -> Either String (Vector Isolate)
 decodeIsolates = fmap snd . decodeByNameWith decodeOptions

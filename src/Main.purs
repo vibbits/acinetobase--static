@@ -40,6 +40,7 @@ table isos = DOM.tbody_ $ row <$> isos
       , DOM.td { className: "text-center", children: [ DOM.text iso.kl ] }
       , DOM.td { className: "text-center", children: [ DOM.text iso.st ] }
       , DOM.td { className: "text-center", children: [ DOM.text iso.ocl ] }
+      , DOM.td { className: "text-center", children: [ DOM.text iso.mt ] }
       ]
 
 filterByField :: String -> String -> Isolate -> Boolean
@@ -53,6 +54,7 @@ filterByField field needle iso =
               , ("kl" /\ iso.kl)
               , ("st" /\ iso.st)
               , ("ocl" /\ iso.ocl)
+              , ("mt" /\ iso.mt)
               ]
       )
 
@@ -137,6 +139,7 @@ mkApp =
                                 , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Capsule locus type" ] }
                                 , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Sequence type" ] }
                                 , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Outer core lipooligosaccharide type" ] }
+                                , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Macrocolony Type" ] }
                                 ]
                             ]
                         , table filtered

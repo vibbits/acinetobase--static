@@ -12,6 +12,7 @@ type Isolate
     , kl :: String
     , st :: String
     , ocl :: String
+    , mt :: String
     }
 
 foreign import isolatesImpl :: Foreign
@@ -22,7 +23,8 @@ readIsolate value = do
   kl <- value ! "kl" >>= readString
   st <- value ! "st" >>= readString
   ocl <- value ! "ocl" >>= readString
-  pure { name, kl, st, ocl }
+  mt <- value ! "mt" >>= readString
+  pure { name, kl, st, ocl, mt }
 
 isolates :: Array Isolate
 isolates = either (const []) identity $ runExcept $ readArray isolatesImpl >>= traverse readIsolate
