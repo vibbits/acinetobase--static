@@ -13,7 +13,7 @@ images. Database includes microscope images, density plots, and GenBank links.
 There is a single build requirement: [Nix](https://nixos.org/). After installing `nix` you can build the generator with:
 
 ```bash
-nix-build release.nix
+nix-build
 ```
 
 You can then build the static site itself with:
