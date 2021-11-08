@@ -47,10 +47,10 @@ data SiteMeta =
 
 siteMeta :: Day -> SiteMeta
 siteMeta day =
-  SiteMeta { baseUrl = "/"
+  SiteMeta { baseUrl = "https://acinetobase.vib.be"
            , imageUrl = "/images"
            , siteTitle = "Acinetobase"
-           , siteDescription = "Compendium of Experiments in the Lab"
+           , siteDescription = "Database of strains, genotypes and phenotypes"
            , lastUpdate = day
            }
 
