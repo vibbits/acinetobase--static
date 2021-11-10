@@ -50,7 +50,7 @@ siteMeta day =
   SiteMeta { baseUrl = "https://acinetobase.vib.be"
            , imageUrl = "/images"
            , siteTitle = "Acinetobase"
-           , siteDescription = "Database of strains, genotypes and phenotypes"
+           , siteDescription = "Database of Acinetobacter strains, genotypes, and phenotypes."
            , lastUpdate = day
            }
 
