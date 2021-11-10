@@ -31,7 +31,9 @@
               <td class="text-center">{{ocl}}</td>
               <td class="text-center">{{mt}}</td>
               {{#genbank}}
-              <td><a href="{{genbank}}" target="_blank">GenBank</a></td>
+              <td>
+                <a href="https://www.ncbi.nlm.nih.gov/assembly/{{genbank}}/" target="_blank">GenBank</a>
+              </td>
               {{/genbank}}
             </tr>
           </tbody>
@@ -48,14 +50,12 @@
         </div>
         {{/density}}
 
-        {{#colony}}
         <div class="col d-flex justify-content-center align-items-end">
           <figure class="figure">
-            <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_colony.jpg" class="figure-img img-fluid a-fig" alt="Macrocolony type">
-            <figcaption class="figure-caption">Macrocolony type.</figcaption>
+            <img src="{{baseUrl}}/{{mt}}.png" class="figure-img img-fluid a-fig" alt="Macrocolony type">
+            <figcaption class="figure-caption">{{mtLabel}}.</figcaption>
           </figure>
         </div>
-        {{/colony}}
 
         {{#microscope}}
         <div class="col d-flex justify-content-center align-items-end">

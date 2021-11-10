@@ -64,7 +64,6 @@ sourceDir = "data/"
 
 data Isolate =
   Isolate { density    :: !Bool
-          , colony     :: !Bool
           , microscope :: !Bool
           , model      :: !Bool
           , name       :: !T.Text
@@ -78,7 +77,7 @@ data Isolate =
 
 instance FromNamedRecord Isolate where
   parseNamedRecord record =
-    Isolate False False False False
+    Isolate False False False
        <$> record .: "Isolate"
        <*> record .: "KL"
        <*> record .: "OCL"
@@ -129,6 +128,13 @@ withAbout :: Value
 withAbout =
   Object $ HM.singleton "about" $ Bool True
 
+withMTLabel :: T.Text -> Value
+withMTLabel label =
+  Object $ HM.singleton "mtLabel" (String $ "Macrocolony Type " <> label')
+  where
+    label' :: T.Text
+    label' = T.takeEnd 1 label
+
 --- Build helpers -------------------------------------------------------------
 
 isolateFile :: Isolate -> FilePath
@@ -147,9 +153,8 @@ filesFromIsolates isolates =
 
     images :: Vector FilePath
     images
-      = (\i -> fromList $ map snd $ filter fst $ zip [density i, colony i, microscope i, model i]
+      = (\i -> fromList $ map snd $ filter fst $ zip [density i, microscope i, model i]
           [ outputDir </> "images" </> iname i ++ "_density.png"
-                       , outputDir </> "images" </> iname i ++ "_colony.jpg"
                        , outputDir </> "images" </> iname i ++ "_TEM.png"
                        , outputDir </> "images" </> iname i ++ ".png"]
                ) =<< isolates
@@ -162,7 +167,7 @@ buildIsolatePage :: Day -> Isolate -> Action ()
 buildIsolatePage day isolate = do
   let url = isolateFile isolate
   template <- compileTemplate' "templates/isolate.html"
-  let pageData = withMeta (siteMeta day) . withMeta isolate $ withUrl url
+  let pageData = withMeta (siteMeta day) . withMeta isolate $ withUrl url <> withMTLabel (mt isolate)
   writeFile' (outputDir </> url) . T.unpack $ substitute template pageData
 
 buildIndex :: Day -> Vector Isolate -> Action ()
@@ -271,7 +276,6 @@ updateIsolates isolates files =
       case files !? ident of
         Nothing -> isolate
         Just fs -> isolate { density = Set.member (ident ++ "_density.png") fs
-                           , colony = Set.member (ident ++ "_colony.jpg") fs
                            , microscope = Set.member (ident ++ "_TEM.png") fs
                            , model = Set.member (ident ++ ".png") fs }
 
@@ -290,3 +294,5 @@ main = do
     Right isolates -> buildRules day $ updateIsolates isolates sourceDirContents
     Left err       -> putStrLn err
 
+instance Semigroup Value where
+  Object a <> Object b = Object $ HM.union a b
