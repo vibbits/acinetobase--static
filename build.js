@@ -1,6 +1,7 @@
 const esbuild = require("esbuild");
 const PureScriptPlugin = require("esbuild-plugin-purescript");
 const path = require("path");
+const fs = require("fs");
 
 esbuild
   .build({
@@ -10,7 +11,12 @@ esbuild
     treeShaking: true,
     outdir: "dist",
     plugins: [
-      PureScriptPlugin(),
+      PureScriptPlugin({
+        output: path.resolve(
+          __dirname,
+          fs.existsSync("dce-output") ? "dce-output" : "output"
+        ),
+      }),
     ],
   })
   .catch((_e) => process.exit(1));

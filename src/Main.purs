@@ -8,7 +8,6 @@ import Data.Maybe (Maybe(..), fromMaybe)
 import Data.String (Pattern(..), contains, toLower)
 import Data.Tuple.Nested ((/\))
 import Effect (Effect)
-import Effect.Console (log)
 import Effect.Exception as Exception
 import Foreign.Object as Obj
 import React.Basic (JSX, fragment)
@@ -37,8 +36,9 @@ table isos = DOM.tbody_ $ row <$> isos
                   }
               ]
           }
+      , DOM.td { className: "text-center", children: [ DOM.text iso.stPas ] }
+      , DOM.td { className: "text-center", children: [ DOM.text iso.stOx ] }
       , DOM.td { className: "text-center", children: [ DOM.text iso.kl ] }
-      , DOM.td { className: "text-center", children: [ DOM.text iso.st ] }
       , DOM.td { className: "text-center", children: [ DOM.text iso.ocl ] }
       , DOM.td { className: "text-center", children: [ DOM.text iso.mt ] }
       ]
@@ -46,17 +46,20 @@ table isos = DOM.tbody_ $ row <$> isos
 filterByField :: String -> String -> Isolate -> Boolean
 filterByField field needle iso =
   fromMaybe false
-    $ contains (Pattern $ toLower needle)
-    <<< toLower
-    <$> ( M.lookup field
-          $ M.fromFoldable
-              [ ("name" /\ iso.name)
-              , ("kl" /\ iso.kl)
-              , ("st" /\ iso.st)
-              , ("ocl" /\ iso.ocl)
-              , ("mt" /\ iso.mt)
-              ]
-      )
+    $
+      contains (Pattern $ toLower needle)
+        <<< toLower
+        <$>
+          ( M.lookup field
+              $ M.fromFoldable
+                  [ ("name" /\ iso.name)
+                  , ("kl" /\ iso.kl)
+                  , ("st_pas" /\ iso.stPas)
+                  , ("st_ox" /\ iso.stOx)
+                  , ("ocl" /\ iso.ocl)
+                  , ("mt" /\ iso.mt)
+                  ]
+          )
 
 mkApp :: Hooks.Component (Array Isolate)
 mkApp =
@@ -84,8 +87,12 @@ mkApp =
                                     , children: [ DOM.text "Name" ]
                                     }
                                 , DOM.option
-                                    { value: "st"
-                                    , children: [ DOM.text "Sequence type" ]
+                                    { value: "st_pas"
+                                    , children: [ DOM.text "Pasteur Sequence type" ]
+                                    }
+                                , DOM.option
+                                    { value: "st_ox"
+                                    , children: [ DOM.text "Oxford Sequence type" ]
                                     }
                                 , DOM.option
                                     { value: "kl"
@@ -136,8 +143,9 @@ mkApp =
                         [ DOM.thead_
                             [ DOM.tr_
                                 [ DOM.th { scope: "col", children: [ DOM.text "Strain" ] }
+                                , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Pasteur Sequence type" ] }
+                                , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Oxford Sequence type" ] }
                                 , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Capsule locus type" ] }
-                                , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Sequence type" ] }
                                 , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Outer core lipooligosaccharide type" ] }
                                 , DOM.th { scope: "col", className: "text-center", children: [ DOM.text "Macrocolony Type" ] }
                                 ]
@@ -151,7 +159,6 @@ mkApp =
 
 main :: Effect Unit
 main = do
-  log "🍝"
   container <- (querySelector $ QuerySelector "main") =<< (toParentNode <$> (window >>= document))
   app <- mkApp
   case container of

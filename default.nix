@@ -16,7 +16,6 @@ let
       # Haskell development
       pkgs.haskell-language-server
       pkgs.cabal-install
-      pkgs.stylish-haskell
       pkgs.hlint
 
       # Purescript development

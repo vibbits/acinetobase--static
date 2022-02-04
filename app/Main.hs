@@ -1,58 +1,77 @@
 module Main where
 
-import           Prelude
-
-import qualified Control.Exception          as Exception
-import           Control.Monad              (filterM)
-import           Data.Aeson                 (ToJSON,
-                                             Value (Array, Bool, Object, String),
-                                             encode, toJSON)
-import           Data.ByteString.Builder    (stringUtf8, toLazyByteString)
-import qualified Data.ByteString.Lazy       as BL
-import           Data.Char                  (ord)
-import           Data.Csv                   (DecodeOptions (decDelimiter),
-                                             FromNamedRecord (parseNamedRecord),
-                                             decodeByNameWith,
-                                             defaultDecodeOptions, (.:))
-import           Data.Functor               ((<&>))
-import           Data.HashMap.Strict        ((!?))
-import qualified Data.HashMap.Strict        as HM
-import qualified Data.Set                   as Set
-import qualified Data.Text                  as T
-import           Data.Time                  (Day)
-import           Data.Time.Clock            (getCurrentTime, utctDay)
-import           Data.Vector                (Vector, fromList, toList)
-import           Development.Shake          (Action, ShakeOptions (shakeFiles),
-                                             cmd_, copyFileChanged, forP,
-                                             getDirectoryFiles, liftIO, need,
-                                             phony, putInfo, removeFilesAfter,
-                                             shakeArgs, shakeOptions, want,
-                                             writeFile', (%>))
-import           Development.Shake.FilePath (takeBaseName, takeFileName, (</>))
-import           GHC.Generics               (Generic)
-import           Slick.Mustache             (compileTemplate')
-import           System.Directory           (doesDirectoryExist, listDirectory)
-import           Text.Mustache.Render       (substitute)
+import qualified Control.Exception as Exception
+import Control.Monad (filterM)
+import Data.Aeson
+  ( ToJSON,
+    Value (Array, Bool, Object, String),
+    encode,
+    toJSON,
+  )
+import Data.ByteString.Builder (stringUtf8, toLazyByteString)
+import qualified Data.ByteString.Lazy as BL
+import Data.Char (ord)
+import Data.Csv
+  ( DecodeOptions (decDelimiter),
+    FromNamedRecord (parseNamedRecord),
+    decodeByNameWith,
+    defaultDecodeOptions,
+    (.:),
+  )
+import Data.Functor ((<&>))
+import Data.HashMap.Strict ((!?))
+import qualified Data.HashMap.Strict as HM
+import qualified Data.Set as Set
+import qualified Data.Text as T
+import Data.Time (Day)
+import Data.Time.Clock (getCurrentTime, utctDay)
+import Data.Vector (Vector, fromList, toList)
+import Development.Shake
+  ( Action,
+    ShakeOptions (shakeFiles),
+    cmd_,
+    copyFileChanged,
+    forP,
+    getDirectoryFiles,
+    liftIO,
+    need,
+    phony,
+    putInfo,
+    removeFilesAfter,
+    shakeArgs,
+    shakeOptions,
+    want,
+    writeFile',
+    (%>),
+  )
+import Development.Shake.FilePath (takeBaseName, takeFileName, (</>))
+import GHC.Generics (Generic)
+import Slick.Mustache (compileTemplate')
+import System.Directory (doesDirectoryExist, listDirectory)
+import Text.Mustache.Render (substitute)
+import Prelude
 
 -- Config ---------------------------------------------------------------------
 
-data SiteMeta =
-  SiteMeta { baseUrl         :: String
-           , imageUrl        :: String
-           , siteTitle       :: String
-           , siteDescription :: String
-           , lastUpdate      :: Day
-           }
+data SiteMeta = SiteMeta
+  { baseUrl :: String,
+    imageUrl :: String,
+    siteTitle :: String,
+    siteDescription :: String,
+    lastUpdate :: Day
+  }
   deriving (Generic, Eq, Ord, Show, ToJSON)
 
 siteMeta :: Day -> SiteMeta
 siteMeta day =
-  SiteMeta { baseUrl = "https://acinetobase.vib.be"
-           , imageUrl = "/images"
-           , siteTitle = "Acinetobase"
-           , siteDescription = "Database of Acinetobacter strains, genotypes, and phenotypes."
-           , lastUpdate = day
-           }
+  SiteMeta
+    { baseUrl = "/_site/",
+      -- baseUrl = "https://acinetobase.vib.be",
+      imageUrl = "/images",
+      siteTitle = "Acinetobase",
+      siteDescription = "Database of Acinetobacter strains, genotypes, and phenotypes.",
+      lastUpdate = day
+    }
 
 outputDir :: FilePath
 outputDir = "_site/"
@@ -62,37 +81,41 @@ sourceDir = "data/"
 
 -- Business Data models -------------------------------------------------------
 
-data Isolate =
-  Isolate { density    :: !Bool
-          , microscope :: !Bool
-          , model      :: !Bool
-          , name       :: !T.Text
-          , kl         :: !T.Text
-          , ocl        :: !T.Text
-          , st         :: !T.Text
-          , genbank    :: Maybe T.Text
-          , mt         :: !T.Text  -- Macrocolony Type
-          }
+data Isolate = Isolate
+  { density :: !Bool,
+    microscope :: !Bool,
+    model :: !Bool,
+    name :: !T.Text,
+    kl :: !T.Text,
+    ocl :: !T.Text,
+    st_pas :: !T.Text,
+    st_ox :: !T.Text,
+    database :: Maybe T.Text,
+    genbank :: !T.Text,
+    mt :: !T.Text -- Macrocolony Type
+  }
   deriving (Generic, Eq, Show, ToJSON)
 
 instance FromNamedRecord Isolate where
   parseNamedRecord record =
     Isolate False False False
-       <$> record .: "Isolate"
-       <*> record .: "KL"
-       <*> record .: "OCL"
-       <*> record .: "ST"
-       <*> record .: "GenBank"
-       <*> record .: "Macrocolony Type"
+      <$> record .: "Isolate"
+      <*> record .: "KL"
+      <*> record .: "OCL"
+      <*> record .: "ST Pasteur"
+      <*> record .: "ST Oxford"
+      <*> record .: "NCBI database"
+      <*> record .: "GenBank"
+      <*> record .: "Macrocolony Type"
 
 decodeIsolates :: BL.ByteString -> Either String (Vector Isolate)
 decodeIsolates = fmap snd . decodeByNameWith decodeOptions
   where
     decodeOptions :: DecodeOptions
-    decodeOptions = defaultDecodeOptions
-      {
-        decDelimiter = fromIntegral (ord ';')
-      }
+    decodeOptions =
+      defaultDecodeOptions
+        { decDelimiter = fromIntegral (ord ';')
+        }
 
 decodeIsolatesFromFile :: FilePath -> IO (Either String (Vector Isolate))
 decodeIsolatesFromFile filePath =
@@ -100,8 +123,9 @@ decodeIsolatesFromFile filePath =
   where
     -- Remove the byte-order mark if it's there.
     dropBOM :: BL.ByteString -> BL.ByteString
-    dropBOM bs | BL.take 3 bs == BL.pack [0xEF, 0xBB, 0xBF] = BL.drop 3 bs
-               | otherwise = bs
+    dropBOM bs
+      | BL.take 3 bs == BL.pack [0xEF, 0xBB, 0xBF] = BL.drop 3 bs
+      | otherwise = bs
 
 catchShowIO :: IO a -> IO (Either String a)
 catchShowIO action =
@@ -114,7 +138,7 @@ withMeta :: (ToJSON a) => a -> Value -> Value
 withMeta meta (Object obj) = Object $ HM.union obj metaObj
   where
     Object metaObj = toJSON meta
-withMeta _ _               = error "Invalid metadata"
+withMeta _ _ = error "Invalid metadata"
 
 withUrl :: String -> Value
 withUrl url =
@@ -143,23 +167,28 @@ isolateFile isolate =
 
 filesFromIsolates :: Vector Isolate -> Vector FilePath
 filesFromIsolates isolates =
-  let
-    iname :: Isolate -> String
-    iname iso = T.unpack (name iso)
+  let iname :: Isolate -> String
+      iname iso = T.unpack (name iso)
 
-    html :: Vector FilePath
-    html
-      = (\i -> outputDir </> isolateFile i) <$> isolates
+      html :: Vector FilePath
+      html =
+        (\i -> outputDir </> isolateFile i) <$> isolates
 
-    images :: Vector FilePath
-    images
-      = (\i -> fromList $ map snd $ filter fst $ zip [density i, microscope i, model i]
-          [ outputDir </> "images" </> iname i ++ "_density.png"
-                       , outputDir </> "images" </> iname i ++ "_TEM.png"
-                       , outputDir </> "images" </> iname i ++ ".png"]
-               ) =<< isolates
-  in
-    html <> images
+      images :: Vector FilePath
+      images =
+        ( \i ->
+            fromList $
+              map snd $
+                filter fst $
+                  zip
+                    [density i, microscope i, model i]
+                    [ outputDir </> "images" </> iname i ++ "_density.png",
+                      outputDir </> "images" </> iname i ++ "_TEM.png",
+                      outputDir </> "images" </> iname i ++ ".png"
+                    ]
+        )
+          =<< isolates
+   in html <> images
 
 --- Build Actions -------------------------------------------------------------
 
@@ -176,12 +205,11 @@ buildIndex day isolates = do
   let indexData = withMeta (siteMeta day) $ withIsolatesIndex isolates
   writeFile' (outputDir </> "index.html") . T.unpack $ substitute indexT indexData
 
-
 -- Top Level ------------------------------------------------------------------
 
 buildRules :: Day -> Vector Isolate -> IO ()
 buildRules day isolates = do
-  shakeArgs shakeOptions{shakeFiles="_build/"} $ do
+  shakeArgs shakeOptions {shakeFiles = "_build/"} $ do
     let outputFiles = filesFromIsolates isolates
     let base = toLazyByteString $ stringUtf8 $ baseUrl $ siteMeta day
 
@@ -193,15 +221,18 @@ buildRules day isolates = do
       removeFilesAfter "_site" ["//*"]
 
     outputDir </> "index.html" %> \_ -> do
-      static <- getDirectoryFiles "static" [ "*.webp"
-                                          , "*.svg"
-                                          , "*.jpg"
-                                          , "*.png"
-                                          , "vib.css"
-                                          , "acinetobase.css"
-                                          , "Dense-Regular.otf"
-                                          , "Dense-Bold.otf"
-                                          ]
+      static <-
+        getDirectoryFiles
+          "static"
+          [ "*.webp",
+            "*.svg",
+            "*.jpg",
+            "*.png",
+            "vib.css",
+            "acinetobase.css",
+            "Dense-Regular.otf",
+            "Dense-Bold.otf"
+          ]
       need ((sourceDir </> "metadata.csv") : ("templates" </> "index.html") : ((outputDir </>) <$> static))
       buildIndex day isolates
 
@@ -248,21 +279,25 @@ buildRules day isolates = do
       pure ()
 
     outputDir </> "index.js" %> \js -> do
-      need [ "src" </> "Site.js"
-           , "src" </> "index.js"
-           , "src" </> "Main.purs"
-           , "src" </> "Site.purs"
-           ]
+      need
+        [ "src" </> "Site.js",
+          "src" </> "index.js",
+          "src" </> "Main.purs",
+          "src" </> "Site.purs"
+        ]
       cmd_ ("npm run build" :: String)
       copyFileChanged ("dist" </> "index.js") js
 
     "src" </> "Site.js" %> \output -> do
       need [sourceDir </> "metadata.csv"]
-      liftIO $ BL.writeFile output
-        $ "\"use strict;\"\n\nexports.baseURL = \""
-        <> base <> "\";\n\n"
-        <> "exports.isolatesImpl = "
-        <> encode isolates <> ";\n"
+      liftIO $
+        BL.writeFile output $
+          "\"use strict;\"\n\nexports.baseURL = \""
+            <> base
+            <> "\";\n\n"
+            <> "exports.isolatesImpl = "
+            <> encode isolates
+            <> ";\n"
 
 updateIsolates :: Vector Isolate -> HM.HashMap FilePath (Set.Set FilePath) -> Vector Isolate
 updateIsolates isolates files =
@@ -270,29 +305,31 @@ updateIsolates isolates files =
   where
     updateIsolate :: Isolate -> Isolate
     updateIsolate isolate =
-      let
-        ident = T.unpack $ name isolate
-      in
-      case files !? ident of
-        Nothing -> isolate
-        Just fs -> isolate { density = Set.member (ident ++ "_density.png") fs
-                           , microscope = Set.member (ident ++ "_TEM.png") fs
-                           , model = Set.member (ident ++ ".png") fs }
+      let ident = T.unpack $ name isolate
+       in case files !? ident of
+            Nothing -> isolate
+            Just fs ->
+              isolate
+                { density = Set.member (ident ++ "_density.png") fs,
+                  microscope = Set.member (ident ++ "_TEM.png") fs,
+                  model = Set.member (ident ++ ".png") fs
+                }
 
 main :: IO ()
 main = do
   day <- utctDay <$> getCurrentTime
   isos <- decodeIsolatesFromFile $ sourceDir </> "metadata.csv"
 
-  sourceDirContents <- HM.fromList <$> (
-    listDirectory sourceDir
-    >>= filterM (\file -> doesDirectoryExist $ sourceDir </> file)
-    >>= mapM (\file -> (\files -> (file, Set.fromList files)) <$> listDirectory (sourceDir </> file))
-    )
+  sourceDirContents <-
+    HM.fromList
+      <$> ( listDirectory sourceDir
+              >>= filterM (\file -> doesDirectoryExist $ sourceDir </> file)
+              >>= mapM (\file -> (\files -> (file, Set.fromList files)) <$> listDirectory (sourceDir </> file))
+          )
 
   case isos of
     Right isolates -> buildRules day $ updateIsolates isolates sourceDirContents
-    Left err       -> putStrLn err
+    Left err -> putStrLn err
 
 instance Semigroup Value where
   Object a <> Object b = Object $ HM.union a b

@@ -15,8 +15,9 @@
             <thead>
               <tr>
                 <th scope="col">Strain</th>
+                <th scope="col" class="text-center">Pasteur Sequence type</th>
+                <th scope="col" class="text-center">Oxford Sequence type</th>
                 <th scope="col" class="text-center">Capsule locus type</th>
-                <th scope="col" class="text-center">Sequence type</th>
                 <th scope="col" class="text-center">Outer core lipooligosaccharide type</th>
                 <th scope="col" class="text-center">Macrocolony Type</th>
               </tr>
@@ -25,8 +26,9 @@
               {{#isolates}}
               <tr>
                 <th scope="row"><a href="{{baseUrl}}/isolates/{{name}}.html">{{name}}</a></th>
+                <td class="text-center">{{st_pas}}</td>
+                <td class="text-center">{{st_ox}}</td>
                 <td class="text-center">{{kl}}</td>
-                <td class="text-center">{{st}}</td>
                 <td class="text-center">{{ocl}}</td>
                 <td class="text-center">{{mt}}</td>
               </tr>

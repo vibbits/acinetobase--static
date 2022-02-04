@@ -1,33 +1,40 @@
 /** Acinetobase specific CSS **/
 
 div#vub-logo-container {
-    padding-top: 13px;
+  padding-top: 13px;
 }
 
 div#vib-vub-csb-logo-container {
-    padding-top: 3px;
+  padding-top: 3px;
 }
 
 div#vib-bits-logo-container {
-    padding-top: 3px;
+  padding-top: 3px;
 }
 
 img#vib-vub-csb-logo {
-    height: 58px;
+  height: 58px;
 }
 
 img#vib-bits-logo {
-    height: 58px;
+  height: 58px;
 }
 
 img.a-fig {
-    max-height: 30em;
+  max-height: 30em;
 }
 
 a#acinetobase-logo img {
-    transition: filter 200ms ease-in-out;
+  transition: filter 200ms ease-in-out;
 }
 
 a#acinetobase-logo img:hover {
-    filter: invert(50%) sepia(86%) saturate(403%) hue-rotate(131deg) brightness(104%) contrast(92%);
+  filter: invert(50%) sepia(86%) saturate(403%) hue-rotate(131deg)
+    brightness(104%) contrast(92%);
+}
+
+span.sup {
+  font-size: 66%;
+  vertical-align: super;
+  line-height: 1;
 }

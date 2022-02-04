@@ -13,7 +13,6 @@ to generate this file without the comments in this block.
 { name = "acinetobase-static"
 , dependencies =
   [ "arrays"
-  , "console"
   , "effect"
   , "either"
   , "exceptions"
