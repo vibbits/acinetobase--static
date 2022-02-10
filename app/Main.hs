@@ -86,13 +86,15 @@ data Isolate = Isolate
     microscope :: !Bool,
     model :: !Bool,
     name :: !T.Text,
-    kl :: !T.Text,
-    ocl :: !T.Text,
-    st_pas :: !T.Text,
-    st_ox :: !T.Text,
-    database :: Maybe T.Text,
+    kl :: !T.Text, -- Capsule locus type
+    ocl :: !T.Text, -- Outer core lipooligosaccharide type
+    st_pas :: !T.Text, -- Sequence type in Pasteur format
+    st_ox :: !T.Text, -- Sequence type in Oxford format
+    database :: !T.Text,
     genbank :: !T.Text,
-    mt :: !T.Text -- Macrocolony Type
+    mt :: !T.Text, -- Macrocolony Type
+    origin :: !T.Text,
+    doi :: Maybe T.Text
   }
   deriving (Generic, Eq, Show, ToJSON)
 
@@ -107,6 +109,8 @@ instance FromNamedRecord Isolate where
       <*> record .: "NCBI database"
       <*> record .: "GenBank"
       <*> record .: "Macrocolony Type"
+      <*> record .: "Origin"
+      <*> record .: "Reference"
 
 decodeIsolates :: BL.ByteString -> Either String (Vector Isolate)
 decodeIsolates = fmap snd . decodeByNameWith decodeOptions

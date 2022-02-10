@@ -19,9 +19,13 @@
               <th scope="col" class="text-center">Capsule locus type</th>
               <th scope="col" class="text-center">Outer core lipooligosaccharide type</th>
               <th scope="col" class="text-center">Macrocolony Type</th>
+              <th scope="col" class="text-center">Origin</th>
               {{#genbank}}
               <th scope="col">GenBank</th>
               {{/genbank}}
+              {{#doi}}
+              <th scope="col">Reference</th>
+              {{/doi}}
             </tr>
           </thead>
           <tbody>
@@ -32,11 +36,17 @@
               <td class="text-center">{{kl}}</td>
               <td class="text-center">{{ocl}}</td>
               <td class="text-center">{{mt}}</td>
+              <td class="text-center">{{origin}}</td>
               {{#genbank}}
               <td>
                 <a href="https://www.ncbi.nlm.nih.gov/{{database}}/{{genbank}}/" target="_blank">GenBank</a>
               </td>
               {{/genbank}}
+              {{#doi}}
+              <td>
+                <a href="https://dx.doi.org/{{doi}}" target="_blank">{{doi}}</a>
+              </td>
+              {{/doi}}
             </tr>
           </tbody>
         </table>
