@@ -65,8 +65,7 @@ data SiteMeta = SiteMeta
 siteMeta :: Day -> SiteMeta
 siteMeta day =
   SiteMeta
-    { baseUrl = "/_site/",
-      -- baseUrl = "https://acinetobase.vib.be",
+    { baseUrl = "https://acinetobase.vib.be",
       imageUrl = "/images",
       siteTitle = "Acinetobase",
       siteDescription = "Database of Acinetobacter strains, genotypes, and phenotypes.",
