@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/webp" href="https://acinetobase.vib.be/logo.webp">
+    <title>Acinetobase</title>
+    <meta name="description" content="Database of Acinetobacter strains, genotypes, and phenotypes.">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!-- Barlow Condensed font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://acinetobase.vib.be/vib.css" rel="stylesheet">
+    <link href="https://acinetobase.vib.be/acinetobase.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="d-flex flex-row vib-bar-breadcrumb bg-vib-blue">
+      <a href="https://vib.be" target="_blank" rel="noopener noreferrer" class="vib-main-site d-flex justify-content-center align-items-center">
+        <img class="vib-logo-small" src="https://acinetobase.vib.be/download.svg" alt="VIB logo">
+      </a>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-vib-light-grey z2">
+      <div class="container-fluid vib-nav">
+        <a class="navbar-brand" href="https://acinetobase.vib.be" id="acinetobase-logo">
+          <img src="https://acinetobase.vib.be/acinetobase_blue.png" alt="Acinetobase logo" width="90" height="90">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="container-fluid d-flex flex-row-reverse">
+            <a class="btn vib-btn" href="https://acinetobase.vib.be/about.html">ABOUT</a>
+            <a class="btn vib-btn" href="https://acinetobase.vib.be/">HOME</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="d-flex flex-column justify-content-center align-items-center text-center banner bg-vib-blue">
+      <h1 class="vib-h1 text-vib-white">Acinetobase</h1>
+      <h3 class="vib-h3 text-vib-white">Database of Acinetobacter strains, genotypes, and phenotypes.</h3>
+    </div>
+
+    <div class="container">
+      <h2 class="vib-h2 text-vib-blue">AB229-VUB</h2>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Strain</th>
+              <th scope="col" class="text-center">Pasteur Sequence type</th>
+              <th scope="col" class="text-center">Oxford Sequence type</th>
+              <th scope="col" class="text-center">Capsule locus type</th>
+              <th scope="col" class="text-center">Outer core lipooligosaccharide type</th>
+              <th scope="col" class="text-center">Macrocolony Type</th>
+              <th scope="col" class="text-center">Origin</th>
+              <th scope="col">GenBank</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">AB229-VUB</th>
+              <td class="text-center">ST1</td>
+              <td class="text-center">ST441</td>
+              <td class="text-center">KL4</td>
+              <td class="text-center">OCL1</td>
+              <td class="text-center">MTC</td>
+              <td class="text-center">clinical</td>
+              <td>
+                <a href="https://www.ncbi.nlm.nih.gov/nuccore/CP091339/" target="_blank">GenBank</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row">
+        <div class="col d-flex justify-content-center align-items-end">
+          <figure class="figure">
+            <img src="https://acinetobase.vib.be//images/AB229-VUB_density.png" class="figure-img img-fluid a-fig" alt="Density gradient">
+            <figcaption class="figure-caption">Density gradient.</figcaption>
+          </figure>
+        </div>
+
+        <div class="col d-flex justify-content-center align-items-end">
+          <figure class="figure">
+            <img src="https://acinetobase.vib.be/MTC.png" class="figure-img img-fluid a-fig" alt="Macrocolony type">
+            <figcaption class="figure-caption">Macrocolony Type C.</figcaption>
+          </figure>
+        </div>
+
+
+      </div>
+    </div>
+
+    <footer>
+      <div class="row vib-main-footer">
+        <div class="col footer-l bg-vib-blue text-vib-white">
+          <h3 class="vib-h3">PARTNERS</h3>
+          <div class="row">
+            <div class="col">
+              <a href="https://vib.be" target="_blank">
+                <img src="https://acinetobase.vib.be/vib_notag_neg_rgb.jpg" class="logo-partner" alt="VIB">
+              </a>
+            </div>
+            <div class="col" id="vub-logo-container">
+              <a href="https://www.vub.be/" target="_blank">
+                <img src="https://acinetobase.vib.be/vub-neg.svg" class="logo-partner" alt="VUB">
+              </a>
+            </div>
+            <div class="col" id="vib-vub-csb-logo-container">
+              <a href="https://vib.be/vib-vub-center-structural-biology" target="_blank">
+                <img src="https://acinetobase.vib.be/vib_rf_structural_biology_rgb_neg.jpg" class="logo-partner" id="vib-vub-csb-logo" alt="VIB-VUB Center for Structural Biology">
+              </a>
+            </div>
+            <div class="col" id="vib-bits-logo-container">
+              <a href="https://vib.be/labs/vib-bioinformatics-core" target="_blank">
+                <img src="https://acinetobase.vib.be/bioinformatics_core_rgb_neg.png" class="logo-partner" id="vib-bits-logo" alt="VIB Bioinformatics Core">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col footer-r bg-vib-cyan text-vib-blue">
+          <h3 class="vib-h3">ABOUT</h3>
+          <div>&copy; VIB Bioinformatics Core 2022</div>
+          <div>Last update: 2022-02-28</div>
+        </div>
+      </div>
+      <div class="row vlaanderen-footer">
+        <img src="https://acinetobase.vib.be/vlaanderen.png" alt="Government of Flanders logo">
+      </div>
+    </footer>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/webp" href="https://acinetobase.vib.be/logo.webp">
+    <title>Acinetobase</title>
+    <meta name="description" content="Database of Acinetobacter strains, genotypes, and phenotypes.">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!-- Barlow Condensed font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://acinetobase.vib.be/vib.css" rel="stylesheet">
+    <link href="https://acinetobase.vib.be/acinetobase.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="d-flex flex-row vib-bar-breadcrumb bg-vib-blue">
+      <a href="https://vib.be" target="_blank" rel="noopener noreferrer" class="vib-main-site d-flex justify-content-center align-items-center">
+        <img class="vib-logo-small" src="https://acinetobase.vib.be/download.svg" alt="VIB logo">
+      </a>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-vib-light-grey z2">
+      <div class="container-fluid vib-nav">
+        <a class="navbar-brand" href="https://acinetobase.vib.be" id="acinetobase-logo">
+          <img src="https://acinetobase.vib.be/acinetobase_blue.png" alt="Acinetobase logo" width="90" height="90">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="container-fluid d-flex flex-row-reverse">
+            <a class="btn vib-btn" href="https://acinetobase.vib.be/about.html">ABOUT</a>
+            <a class="btn vib-btn" href="https://acinetobase.vib.be/">HOME</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="d-flex flex-column justify-content-center align-items-center text-center banner bg-vib-blue">
+      <h1 class="vib-h1 text-vib-white">Acinetobase</h1>
+      <h3 class="vib-h3 text-vib-white">Database of Acinetobacter strains, genotypes, and phenotypes.</h3>
+    </div>
+
+    <div class="container">
+      <h2 class="vib-h2 text-vib-blue">Collection</h2>
+      <main>
+        <div class="input-group mb-3"></div>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Strain</th>
+                <th scope="col" class="text-center">Pasteur sequence type</th>
+                <th scope="col" class="text-center">Oxford sequence type</th>
+                <th scope="col" class="text-center">Capsule locus type</th>
+                <th scope="col" class="text-center">Outer core lipooligosaccharide type</th>
+                <th scope="col" class="text-center">Macrocolony Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB14-VUB.html">AB14-VUB</a></th>
+                <td class="text-center">ST636</td>
+                <td class="text-center">ST502</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB16-VUB.html">AB16-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST218</td>
+                <td class="text-center">KL7</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTB</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB167-VUB.html">AB167-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST451</td>
+                <td class="text-center">KL6</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB169-VUB.html">AB169-VUB</a></th>
+                <td class="text-center">ST1</td>
+                <td class="text-center">ST405</td>
+                <td class="text-center">KL18</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB171-VUB.html">AB171-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST848</td>
+                <td class="text-center">KL13</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB172-VUB.html">AB172-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST848</td>
+                <td class="text-center">KL13</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB173-VUB.html">AB173-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST195</td>
+                <td class="text-center">KL3</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTA</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB175-VUB.html">AB175-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST208</td>
+                <td class="text-center">KL2</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB176-VUB.html">AB176-VUB</a></th>
+                <td class="text-center">ST636</td>
+                <td class="text-center">ST502</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB177-VUB.html">AB177-VUB</a></th>
+                <td class="text-center">ST85</td>
+                <td class="text-center">ST1089</td>
+                <td class="text-center">KL124</td>
+                <td class="text-center">OCL6</td>
+                <td class="text-center">MTA</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB179-VUB.html">AB179-VUB</a></th>
+                <td class="text-center">ST10</td>
+                <td class="text-center">ST2455</td>
+                <td class="text-center">KL58</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB180-VUB.html">AB180-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST195</td>
+                <td class="text-center">KL3</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTE</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB181-VUB.html">AB181-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST848</td>
+                <td class="text-center">KL125</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB183-VUB.html">AB183-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST195</td>
+                <td class="text-center">KL9</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB186-VUB.html">AB186-VUB</a></th>
+                <td class="text-center">ST85</td>
+                <td class="text-center">ST1752</td>
+                <td class="text-center">KL12</td>
+                <td class="text-center">OCL6</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB187-VUB.html">AB187-VUB</a></th>
+                <td class="text-center">ST636</td>
+                <td class="text-center">ST502</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB188-VUB.html">AB188-VUB</a></th>
+                <td class="text-center">ST636</td>
+                <td class="text-center">ST502</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB189-VUB.html">AB189-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST1839</td>
+                <td class="text-center">KL22</td>
+                <td class="text-center">OCL3</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB193-VUB.html">AB193-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST425</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB194-VUB.html">AB194-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST425</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB20-VUB.html">AB20-VUB</a></th>
+                <td class="text-center">ST636</td>
+                <td class="text-center">ST502</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTB</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB21-VUB.html">AB21-VUB</a></th>
+                <td class="text-center">ST78</td>
+                <td class="text-center">ST2454</td>
+                <td class="text-center">KL13</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB212-VUB.html">AB212-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST208</td>
+                <td class="text-center">KL2</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTE</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB213-VUB.html">AB213-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST425</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB214-VUB.html">AB214-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST195</td>
+                <td class="text-center">KL3</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB216-VUB.html">AB216-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST369</td>
+                <td class="text-center">KL9</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB217-VUB.html">AB217-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST218</td>
+                <td class="text-center">KL9</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTA</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB219-VUB.html">AB219-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST369</td>
+                <td class="text-center">KL9</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB220-VUB.html">AB220-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST450</td>
+                <td class="text-center">KL9</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB222-VUB.html">AB222-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST281</td>
+                <td class="text-center">KL22</td>
+                <td class="text-center">OCL3</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB224-VUB.html">AB224-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST218</td>
+                <td class="text-center">KL9</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB226-VUB.html">AB226-VUB</a></th>
+                <td class="text-center">ST604</td>
+                <td class="text-center">ST208</td>
+                <td class="text-center">KL2</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB227-VUB.html">AB227-VUB</a></th>
+                <td class="text-center">ST1</td>
+                <td class="text-center">ST441</td>
+                <td class="text-center">KL4</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTB</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB229-VUB.html">AB229-VUB</a></th>
+                <td class="text-center">ST1</td>
+                <td class="text-center">ST441</td>
+                <td class="text-center">KL4</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB231-VUB.html">AB231-VUB</a></th>
+                <td class="text-center">ST215</td>
+                <td class="text-center">ST2056</td>
+                <td class="text-center">KL10</td>
+                <td class="text-center">OCL5</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB232-VUB.html">AB232-VUB</a></th>
+                <td class="text-center">ST1</td>
+                <td class="text-center">ST441</td>
+                <td class="text-center">KL4</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB233-VUB.html">AB233-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST195</td>
+                <td class="text-center">KL3</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTA</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB3-VUB.html">AB3-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST448</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTA</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB32-VUB.html">AB32-VUB</a></th>
+                <td class="text-center">ST158</td>
+                <td class="text-center">ST499</td>
+                <td class="text-center">KL6</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTE</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB36-VUB.html">AB36-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST208</td>
+                <td class="text-center">KL2</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB39-VUB.html">AB39-VUB</a></th>
+                <td class="text-center">ST2</td>
+                <td class="text-center">ST556</td>
+                <td class="text-center">KL81</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTA</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB40-VUB.html">AB40-VUB</a></th>
+                <td class="text-center">ST78</td>
+                <td class="text-center">ST944</td>
+                <td class="text-center">KL3</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB9-VUB.html">AB9-VUB</a></th>
+                <td class="text-center">ST636</td>
+                <td class="text-center">ST502</td>
+                <td class="text-center">KL40</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTD</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/ATCC17978-VUB.html">ATCC17978-VUB</a></th>
+                <td class="text-center">ST437</td>
+                <td class="text-center">ST112</td>
+                <td class="text-center">KL3</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTE</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/ATCC19606-VUB.html">ATCC19606-VUB</a></th>
+                <td class="text-center">ST52</td>
+                <td class="text-center">ST931</td>
+                <td class="text-center">KL3</td>
+                <td class="text-center">OCL1</td>
+                <td class="text-center">MTE</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/DSM30011-VUB.html">DSM30011-VUB</a></th>
+                <td class="text-center">ST738</td>
+                <td class="text-center">ST1113</td>
+                <td class="text-center">KL47</td>
+                <td class="text-center">OCL6</td>
+                <td class="text-center">MTE</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB5075-VUB.html">AB5075-VUB</a></th>
+                <td class="text-center">ST1</td>
+                <td class="text-center">ST945</td>
+                <td class="text-center">KL25</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTC</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://acinetobase.vib.be/isolates/AB5075-VUB-itrA::ISAba13.html">AB5075-VUB-itrA::ISAba13</a></th>
+                <td class="text-center">ST1</td>
+                <td class="text-center">ST945</td>
+                <td class="text-center">KL25</td>
+                <td class="text-center">OCL2</td>
+                <td class="text-center">MTD</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+    <!-- Our own interactivity (only in index.html) -->
+    <script src="https://acinetobase.vib.be/index.js"></script>
+
+    <footer>
+      <div class="row vib-main-footer">
+        <div class="col footer-l bg-vib-blue text-vib-white">
+          <h3 class="vib-h3">PARTNERS</h3>
+          <div class="row">
+            <div class="col">
+              <a href="https://vib.be" target="_blank">
+                <img src="https://acinetobase.vib.be/vib_notag_neg_rgb.jpg" class="logo-partner" alt="VIB">
+              </a>
+            </div>
+            <div class="col" id="vub-logo-container">
+              <a href="https://www.vub.be/" target="_blank">
+                <img src="https://acinetobase.vib.be/vub-neg.svg" class="logo-partner" alt="VUB">
+              </a>
+            </div>
+            <div class="col" id="vib-vub-csb-logo-container">
+              <a href="https://vib.be/vib-vub-center-structural-biology" target="_blank">
+                <img src="https://acinetobase.vib.be/vib_rf_structural_biology_rgb_neg.jpg" class="logo-partner" id="vib-vub-csb-logo" alt="VIB-VUB Center for Structural Biology">
+              </a>
+            </div>
+            <div class="col" id="vib-bits-logo-container">
+              <a href="https://vib.be/labs/vib-bioinformatics-core" target="_blank">
+                <img src="https://acinetobase.vib.be/bioinformatics_core_rgb_neg.png" class="logo-partner" id="vib-bits-logo" alt="VIB Bioinformatics Core">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col footer-r bg-vib-cyan text-vib-blue">
+          <h3 class="vib-h3">ABOUT</h3>
+          <div>&copy; VIB Bioinformatics Core 2022</div>
+          <div>Last update: 2022-02-28</div>
+        </div>
+      </div>
+      <div class="row vlaanderen-footer">
+        <img src="https://acinetobase.vib.be/vlaanderen.png" alt="Government of Flanders logo">
+      </div>
+    </footer>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
+</html>
