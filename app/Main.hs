@@ -93,6 +93,8 @@ data Isolate = Isolate
     genbank :: !T.Text,
     mt :: !T.Text, -- Macrocolony Type
     origin :: !T.Text,
+    source :: !T.Text,
+    year :: !T.Text,
     doi :: Maybe T.Text
   }
   deriving (Generic, Eq, Show, ToJSON)
@@ -109,6 +111,8 @@ instance FromNamedRecord Isolate where
       <*> record .: "GenBank"
       <*> record .: "Macrocolony Type"
       <*> record .: "Origin"
+      <*> record .: "Source"
+      <*> record .: "Year"
       <*> record .: "Reference"
 
 decodeIsolates :: BL.ByteString -> Either String (Vector Isolate)
