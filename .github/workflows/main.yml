@@ -13,20 +13,31 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: cachix/install-nix-action@v15
-        with:
-          nix_path: nixpkgs=channel:nixpkgs-unstable
+      # - uses: cachix/install-nix-action@v15
+      #   with:
+      #     nix_path: nixpkgs=channel:nixpkgs-unstable
 
-      - name: Build generator
-        run: nix-build --impure
-        env:
-          NIXPKGS_ALLOW_BROKEN: 1
+      # - name: Build generator
+      #   run: nix-build --impure
+      #   env:
+      #     NIXPKGS_ALLOW_BROKEN: 1
+
+      - name: Setup Haskell (temporary)
+        uses: haskell/actions/setup@v2
+        with:
+          ghc-version: '8.10.7'
+
+      - name: Build generator (temporary)
+        run: cabal build
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: ./result/bin/build-site
+      # - name: Build
+      #   run: ./result/bin/build-site
+
+      - name: Build (temporary)
+        run: cabal run
       
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
