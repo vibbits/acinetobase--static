@@ -33,6 +33,7 @@ jobs:
           path: |
             ${{ steps.setup-haskell.outputs.cabal-store }}
             dist-newstyle
+          key: ubuntu-acinetobase-static
 
       - name: Build generator (temporary)
         run: cabal build
