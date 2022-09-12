@@ -38,3 +38,7 @@ span.sup {
   vertical-align: super;
   line-height: 1;
 }
+
+caption > dl > dd {
+  padding: 0 0 0 1em;
+}

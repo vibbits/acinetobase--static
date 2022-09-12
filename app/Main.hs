@@ -8,12 +8,11 @@ import Data.Aeson
     encode,
     toJSON,
   )
+import qualified Data.Aeson.KeyMap as KM
 import Data.ByteString.Builder (stringUtf8, toLazyByteString)
 import qualified Data.ByteString.Lazy as BL
-import Data.Char (ord)
 import Data.Csv
-  ( DecodeOptions (decDelimiter),
-    FromNamedRecord (parseNamedRecord),
+  ( FromNamedRecord (parseNamedRecord),
     decodeByNameWith,
     defaultDecodeOptions,
     (.:),
@@ -22,6 +21,7 @@ import Data.Functor ((<&>))
 import Data.HashMap.Strict ((!?))
 import qualified Data.HashMap.Strict as HM
 import qualified Data.Set as Set
+import Data.Text (splitOn)
 import qualified Data.Text as T
 import Data.Time (Day)
 import Data.Time.Clock (getCurrentTime, utctDay)
@@ -95,7 +95,22 @@ data Isolate = Isolate
     origin :: !T.Text,
     source :: !T.Text,
     year :: !T.Text,
-    doi :: Maybe T.Text
+    doi :: Maybe T.Text,
+    ams :: Maybe T.Text,
+    pip :: Maybe T.Text,
+    pit :: Maybe T.Text,
+    caz :: Maybe T.Text,
+    azt :: Maybe T.Text,
+    mer :: Maybe T.Text,
+    gen :: Maybe T.Text,
+    amk :: Maybe T.Text,
+    col :: Maybe T.Text,
+    cip :: Maybe T.Text,
+    tgc :: Maybe T.Text,
+    ts :: Maybe T.Text,
+    tet :: Maybe T.Text,
+    phenotype :: Maybe T.Text,
+    genes :: [T.Text]
   }
   deriving (Generic, Eq, Show, ToJSON)
 
@@ -114,15 +129,24 @@ instance FromNamedRecord Isolate where
       <*> record .: "Source"
       <*> record .: "Year"
       <*> record .: "Reference"
+      <*> record .: "AMS"
+      <*> record .: "PIP"
+      <*> record .: "PIT"
+      <*> record .: "CAZ"
+      <*> record .: "AZT"
+      <*> record .: "MER"
+      <*> record .: "GEN"
+      <*> record .: "AMK"
+      <*> record .: "COL"
+      <*> record .: "CIP"
+      <*> record .: "TGC"
+      <*> record .: "TS"
+      <*> record .: "TET (Etest)"
+      <*> record .: "Phenotype"
+      <*> (splitOn "|" <$> record .: "genes")
 
 decodeIsolates :: BL.ByteString -> Either String (Vector Isolate)
-decodeIsolates = fmap snd . decodeByNameWith decodeOptions
-  where
-    decodeOptions :: DecodeOptions
-    decodeOptions =
-      defaultDecodeOptions
-        { decDelimiter = fromIntegral (ord ';')
-        }
+decodeIsolates = fmap snd . decodeByNameWith defaultDecodeOptions
 
 decodeIsolatesFromFile :: FilePath -> IO (Either String (Vector Isolate))
 decodeIsolatesFromFile filePath =
@@ -142,26 +166,37 @@ catchShowIO action =
     handleIOException = return . Left . show
 
 withMeta :: (ToJSON a) => a -> Value -> Value
-withMeta meta (Object obj) = Object $ HM.union obj metaObj
+withMeta meta (Object obj) = Object $ KM.union obj metaObj
   where
     Object metaObj = toJSON meta
 withMeta _ _ = error "Invalid metadata"
 
 withUrl :: String -> Value
 withUrl url =
-  Object $ HM.singleton "url" (String $ T.pack url)
+  Object $ KM.singleton "url" (String $ T.pack url)
 
 withIsolatesIndex :: Vector Isolate -> Value
 withIsolatesIndex isolates =
-  Object $ HM.singleton "isolates" (Array $ toJSON <$> isolates)
+  Object $ KM.singleton "isolates" (Array $ toJSON <$> isolates)
 
-withAbout :: Value
-withAbout =
-  Object $ HM.singleton "about" $ Bool True
+withPage :: String -> Value
+withPage page =
+  Object $
+    KM.singleton
+      "page"
+      ( Object $
+          KM.fromList
+            [ ("index", Bool $ page == "index"),
+              ("about", Bool $ page == "about"),
+              ("isolate", Bool $ page == "isolate"),
+              ("protocols", Bool $ page == "protocols"),
+              ("submission", Bool $ page == "submission")
+            ]
+      )
 
 withMTLabel :: T.Text -> Value
 withMTLabel label =
-  Object $ HM.singleton "mtLabel" (String $ "Macrocolony Type " <> label')
+  Object $ KM.singleton "mtLabel" (String $ "Macrocolony Type " <> label')
   where
     label' :: T.Text
     label' = T.takeEnd 1 label
@@ -203,13 +238,13 @@ buildIsolatePage :: Day -> Isolate -> Action ()
 buildIsolatePage day isolate = do
   let url = isolateFile isolate
   template <- compileTemplate' "templates/isolate.html"
-  let pageData = withMeta (siteMeta day) . withMeta isolate $ withUrl url <> withMTLabel (mt isolate)
+  let pageData = withMeta (siteMeta day) . withMeta isolate $ withUrl url <> withMTLabel (mt isolate) <> withPage "isolate"
   writeFile' (outputDir </> url) . T.unpack $ substitute template pageData
 
 buildIndex :: Day -> Vector Isolate -> Action ()
 buildIndex day isolates = do
   indexT <- compileTemplate' "templates/index.html"
-  let indexData = withMeta (siteMeta day) $ withIsolatesIndex isolates
+  let indexData = withMeta (siteMeta day) $ withIsolatesIndex isolates <> withPage "index"
   writeFile' (outputDir </> "index.html") . T.unpack $ substitute indexT indexData
 
 -- Top Level ------------------------------------------------------------------
@@ -220,12 +255,21 @@ buildRules day isolates = do
     let outputFiles = filesFromIsolates isolates
     let base = toLazyByteString $ stringUtf8 $ baseUrl $ siteMeta day
 
-    want $ toList outputFiles ++ [outputDir </> "index.html", outputDir </> "about.html", outputDir </> "index.js"]
+    want $
+      toList outputFiles
+        ++ [ outputDir </> "index.html",
+             outputDir </> "about.html",
+             outputDir </> "protocols.html",
+             outputDir </> "submission.html",
+             outputDir </> "index.js"
+           ]
 
     phony "clean" $ do
       putInfo "Cleaning..."
       removeFilesAfter "_build" ["//*"]
       removeFilesAfter "_site" ["//*"]
+      removeFilesAfter "output" ["//*"]
+      removeFilesAfter "src" ["Site.js"]
 
     outputDir </> "index.html" %> \_ -> do
       static <-
@@ -246,8 +290,20 @@ buildRules day isolates = do
     outputDir </> "about.html" %> \_ -> do
       need ["templates" </> "about.html"]
       template <- compileTemplate' "templates/about.html"
-      let pageData = withMeta (siteMeta day) withAbout
+      let pageData = withMeta (siteMeta day) (withPage "about")
       writeFile' (outputDir </> "about.html") . T.unpack $ substitute template pageData
+
+    outputDir </> "protocols.html" %> \_ -> do
+      need ["templates" </> "protocols.html"]
+      template <- compileTemplate' "templates/protocols.html"
+      let pageData = withMeta (siteMeta day) (withPage "protocols")
+      writeFile' (outputDir </> "protocols.html") . T.unpack $ substitute template pageData
+
+    outputDir </> "submission.html" %> \_ -> do
+      need ["templates" </> "submission.html"]
+      template <- compileTemplate' "templates/submission.html"
+      let pageData = withMeta (siteMeta day) (withPage "submission")
+      writeFile' (outputDir </> "submission.html") . T.unpack $ substitute template pageData
 
     outputDir </> "*.webp" %> \output -> do
       need ["static" </> takeFileName output]
@@ -268,7 +324,7 @@ buildRules day isolates = do
     outputDir </> "*.css" %> \css -> do
       need ["static" </> takeFileName css]
       cssTemplate <- compileTemplate' $ "static" </> takeFileName css
-      let cssData = withMeta (siteMeta day) $ Object HM.empty
+      let cssData = withMeta (siteMeta day) $ Object KM.empty
       writeFile' css . T.unpack $ substitute cssTemplate cssData
 
     outputDir </> "*.otf" %> \font -> do
@@ -299,10 +355,10 @@ buildRules day isolates = do
       need [sourceDir </> "metadata.csv"]
       liftIO $
         BL.writeFile output $
-          "\"use strict;\"\n\nexports.baseURL = \""
+          "export const baseURL = \""
             <> base
             <> "\";\n\n"
-            <> "exports.isolatesImpl = "
+            <> "export const isolatesImpl = "
             <> encode isolates
             <> ";\n"
 
@@ -339,4 +395,4 @@ main = do
     Left err -> putStrLn err
 
 instance Semigroup Value where
-  Object a <> Object b = Object $ HM.union a b
+  Object a <> Object b = Object $ KM.union a b

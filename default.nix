@@ -3,8 +3,11 @@ let
 
   haskellPackages = pkgs.haskellPackages.override {
     overrides = hself: hsuper: {
-      "acinetobase-static" =
+      acinetobase-static =
         hself.callCabal2nix "acinetobase-static" ./. { };
+
+      slick =
+        hself.callPackage ./slick.nix { };
     };
   };
 
@@ -22,7 +25,6 @@ let
       pkgs.purescript
       pkgs.spago
       pkgs.nodePackages.pscid
-      pkgs.nodePackages.parcel-bundler
       pkgs.nodePackages.purty
 
       # Node

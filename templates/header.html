@@ -13,8 +13,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="container-fluid d-flex flex-row-reverse">
-        <a class="btn vib-btn" href="{{baseUrl}}/about.html">ABOUT</a>
-        <a class="btn vib-btn" href="{{baseUrl}}/">HOME</a>
+        <a class="btn vib-btn {{#page}}{{#about}}disabled{{/about}}{{/page}}" href="{{baseUrl}}/about.html">ABOUT</a>
+        <a class="btn vib-btn {{#page}}{{#protocols}}disabled{{/protocols}}{{/page}}" href="{{baseUrl}}/protocols.html">PROTOCOLS</a>
+        <a class="btn vib-btn {{#page}}{{#submission}}disabled{{/submission}}{{/page}}" href="{{baseUrl}}/submission.html">SUBMISSION</a>
+        <a class="btn vib-btn {{#page}}{{#index}}disabled{{/index}}{{/page}}" href="{{baseUrl}}/">HOME</a>
       </div>
     </div>
   </div>

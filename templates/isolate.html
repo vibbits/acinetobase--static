@@ -22,9 +22,6 @@
               <th scope="col" class="text-center">Origin</th>
               <th scope="col" class="text-center">Source</th>
               <th scope="col" class="text-center">Year</th>
-              {{#genbank}}
-              <th scope="col">GenBank</th>
-              {{/genbank}}
               {{#doi}}
               <th scope="col">Reference</th>
               {{/doi}}
@@ -32,7 +29,12 @@
           </thead>
           <tbody>
             <tr>
+              {{#genbank}}
+              <th scope="row"><a href="https://www.ncbi.nlm.nih.gov/{{database}}/{{genbank}}/" target="_blank">{{name}}</a></th>
+              {{/genbank}}
+              {{^genbank}}
               <th scope="row">{{name}}</th>
+              {{/genbank}}
               <td class="text-center">{{st_pas}}</td>
               <td class="text-center">{{st_ox}}</td>
               <td class="text-center">{{kl}}</td>
@@ -41,11 +43,6 @@
               <td class="text-center">{{origin}}</td>
               <td class="text-center">{{source}}</td>
               <td class="text-center">{{year}}</td>
-              {{#genbank}}
-              <td>
-                <a href="https://www.ncbi.nlm.nih.gov/{{database}}/{{genbank}}/" target="_blank">GenBank</a>
-              </td>
-              {{/genbank}}
               {{#doi}}
               <td>
                 <a href="https://dx.doi.org/{{doi}}" target="_blank">{{doi}}</a>
@@ -90,6 +87,97 @@
           </figure>
         </div>
         {{/model}}
+      </div>
+
+      <div class="row">
+        <h3 class="vib-h3 text-vib-blue">Antibiotic Resistance Profile</h3>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <caption>
+              <dl>
+                <dt>R</dt>
+                <dd>resistant</dd>
+
+                <dt>S</dt>
+                <dd>susceptible</dd>
+
+                <dt>I</dt>
+                <dd>intermediate</dd>
+
+                <dt>I+</dt>
+                <dd>intermediate or resistant (the MICs reached maximum of the KIT, yet according to CLSI classified as intermediate)</dd>
+
+                <dt>NS</dt>
+                <dd>non susceptible (the triplicates varried in the resistant or intemrediate cathegory, yet non was susceptible)</dd>
+
+                <dt>NR</dt>
+                <dd>non resistant (the triplicates varried in the intemediate or susceptible cathegory, yet none was resistant)</dd>
+
+                <dt>NQ</dt>
+                <dd>not qualifaible (the resistant and susceptible phenotype was detected for the strain within the triplicate)</dd>
+
+                <dt>N/T</dt>
+                <dd>not tested</dd>
+
+                <dt>MDR</dt>
+                <dd>multidrug-resistant</dd>
+
+                <dt>XDR</dt>
+                <dd>extensively drug-resistant</dd>
+
+                <dt>PDR</dt>
+                <dd>pandrug-resistant</dd>
+              </dl>
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col" colspan="13">Resistance to:</th>
+                <th scope="col" class="text-center">Phenotype</th>
+              </tr>
+              <tr>
+                <th scope="col" class="text-center">AMS</th>
+                <th scope="col" class="text-center">PIP</th>
+                <th scope="col" class="text-center">PIT</th>
+                <th scope="col" class="text-center">CAZ</th>
+                <th scope="col" class="text-center">AZT</th>
+                <th scope="col" class="text-center">MER</th>
+                <th scope="col" class="text-center">GEN</th>
+                <th scope="col" class="text-center">AMK</th>
+                <th scope="col" class="text-center">COL</th>
+                <th scope="col" class="text-center">CIP</th>
+                <th scope="col" class="text-center">TGC</th>
+                <th scope="col" class="text-center">TS</th>
+                <th scope="col" class="text-center">TET (Etest)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td class="text-center">{{ams}}</td>
+              <td class="text-center">{{pip}}</td>
+              <td class="text-center">{{pit}}</td>
+              <td class="text-center">{{caz}}</td>
+              <td class="text-center">{{azt}}</td>
+              <td class="text-center">{{mer}}</td>
+              <td class="text-center">{{gen}}</td>
+              <td class="text-center">{{amk}}</td>
+              <td class="text-center">{{col}}</td>
+              <td class="text-center">{{cip}}</td>
+              <td class="text-center">{{tgc}}</td>
+              <td class="text-center">{{ts}}</td>
+              <td class="text-center">{{tet}}</td>
+              <td class="text-center">{{phenotype}}</td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <h3 class="vib-h3 text-vib-blue">Antibiotic Resistance Genes</h3>
+
+        <ul class="list-group list-group-horizontal-xl">
+          {{#genes}}
+          <li class="list-group-item flex-fill">{{{.}}}</li>
+          {{/genes}}
+        </ul>
       </div>
     </div>
 
