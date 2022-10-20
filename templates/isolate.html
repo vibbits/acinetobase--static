@@ -54,39 +54,41 @@
       </div>
 
       <div class="row row-cols-auto">
-        {{#density}}
+        {{#has_density_image}}
         <div class="col d-flex justify-content-center align-items-end">
           <figure class="figure">
             <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_density.png" class="figure-img img-fluid a-fig" alt="Density gradient">
             <figcaption class="figure-caption">Density gradient.</figcaption>
           </figure>
         </div>
-        {{/density}}
+        {{/has_density_image}}
 
+        {{#has_mt_image}}
         <div class="col d-flex justify-content-center align-items-end">
           <figure class="figure">
-            <img src="{{baseUrl}}/{{mt}}.png" class="figure-img img-fluid a-fig" alt="Macrocolony type">
+            <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_mt.png" class="figure-img img-fluid a-fig" alt="Macrocolony type">
             <figcaption class="figure-caption">{{mtLabel}}.</figcaption>
           </figure>
         </div>
+        {{/has_mt_image}}
 
-        {{#microscope}}
+        {{#has_microscope_image}}
         <div class="col d-flex justify-content-center align-items-end">
           <figure class="figure">
             <img src="{{baseUrl}}/{{imageUrl}}/{{name}}_TEM.png" class="figure-img img-fluid a-fig" alt="Transmission Electron Microscopy">
             <figcaption class="figure-caption">Transmission Electron Microscopy.</figcaption>
           </figure>
         </div>
-        {{/microscope}}
+        {{/has_microscope_image}}
 
-        {{#model}}
+        {{#has_model_image}}
         <div class="col d-flex justify-content-center align-items-end">
           <figure class="figure">
             <img src="{{baseUrl}}/{{imageUrl}}/{{name}}.png" class="figure-img img-fluid a-fig" alt="Virulence in Galleria mellonella infection models">
             <figcaption class="figure-caption">Virulence in <em>Galleria mellonella</em> infection models.</figcaption>
           </figure>
         </div>
-        {{/model}}
+        {{/has_model_image}}
       </div>
 
       <div class="row">

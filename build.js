@@ -14,7 +14,7 @@ esbuild
       PureScriptPlugin({
         output: path.resolve(
           __dirname,
-          fs.existsSync("dce-output") ? "dce-output" : "output"
+          fs.existsSync("output-es") ? "output-es" : "output"
         ),
       }),
     ],

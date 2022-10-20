@@ -4,7 +4,7 @@
   "description": "Compendium of Experiments in the Lab",
   "main": "src/index.js",
   "scripts": {
-    "build": "spago build --purs-args '--codegen corefn,js' && node build.js",
+    "build": "spago build && node build.js",
     "start": "live-server --no-browser ./_site",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,10 +23,11 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "esbuild": "^0.15.7",
+    "esbuild": "^0.15.12",
     "esbuild-plugin-purescript": "^1.1.1",
     "live-server": "^1.2.2",
-    "purescript": "^0.15.4",
+    "purescript": "^0.15.6",
+    "purs-backend-es": "^1.1.1",
     "spago": "^0.20.9"
   }
 }

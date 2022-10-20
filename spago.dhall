@@ -23,7 +23,6 @@ to generate this file without the comments in this block.
   , "maybe"
   , "ordered-collections"
   , "prelude"
-  , "psci-support"
   , "react-basic"
   , "react-basic-dom"
   , "react-basic-hooks"
@@ -35,4 +34,5 @@ to generate this file without the comments in this block.
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs" ]
+, backend = "purs-backend-es build"
 }

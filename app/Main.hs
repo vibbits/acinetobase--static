@@ -81,9 +81,10 @@ sourceDir = "data/"
 -- Business Data models -------------------------------------------------------
 
 data Isolate = Isolate
-  { density :: !Bool,
-    microscope :: !Bool,
-    model :: !Bool,
+  { has_density_image :: !Bool,
+    has_microscope_image :: !Bool,
+    has_model_image :: !Bool,
+    has_mt_image :: !Bool,
     name :: !T.Text,
     kl :: !T.Text, -- Capsule locus type
     ocl :: !T.Text, -- Outer core lipooligosaccharide type
@@ -116,7 +117,7 @@ data Isolate = Isolate
 
 instance FromNamedRecord Isolate where
   parseNamedRecord record =
-    Isolate False False False
+    Isolate False False False False
       <$> record .: "Isolate"
       <*> record .: "KL"
       <*> record .: "OCL"
@@ -223,10 +224,11 @@ filesFromIsolates isolates =
               map snd $
                 filter fst $
                   zip
-                    [density i, microscope i, model i]
+                    [has_density_image i, has_microscope_image i, has_model_image i, has_mt_image i]
                     [ outputDir </> "images" </> iname i ++ "_density.png",
                       outputDir </> "images" </> iname i ++ "_TEM.png",
-                      outputDir </> "images" </> iname i ++ ".png"
+                      outputDir </> "images" </> iname i ++ ".png",
+                      outputDir </> "images" </> iname i ++ "_mt.png"
                     ]
         )
           =<< isolates
@@ -373,9 +375,10 @@ updateIsolates isolates files =
             Nothing -> isolate
             Just fs ->
               isolate
-                { density = Set.member (ident ++ "_density.png") fs,
-                  microscope = Set.member (ident ++ "_TEM.png") fs,
-                  model = Set.member (ident ++ ".png") fs
+                { has_density_image = Set.member (ident ++ "_density.png") fs,
+                  has_microscope_image = Set.member (ident ++ "_TEM.png") fs,
+                  has_model_image = Set.member (ident ++ ".png") fs,
+                  has_mt_image = Set.member (ident ++ "_mt.png") fs
                 }
 
 main :: IO ()
